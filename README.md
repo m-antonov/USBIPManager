@@ -12,10 +12,7 @@ The traditional connection of the USB device requires direct physical action, bu
 You can also:
   - Manage power of the devices through USB-hubs and individual device disconnection from them as if you physically complete it
 
-<details>
-  <summary>Click to expand screenshot</summary>
-  ![Image](/icon/README_2.png?raw=true)
-</details>
+![Image](/icon/README_2.png?raw=true)
 
   - Watch these beautiful meanders of the devices network activity during the connection process
 
