@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>481</width>
+    <height>252</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>481</width>
+    <height>252</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>481</width>
+    <height>252</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>USBIPManager - Software settings</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <widget class="QGroupBox" name="server_list_box">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>461</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Server list</string>
+   </property>
+   <widget class="QLineEdit" name="socket_timeout">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>20</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="socket_timeout_label">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>20</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Socket timeout:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="default_port_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Default port:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="default_port">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="polling_time_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Polling time:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="polling_time">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>50</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="apply_button">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>220</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancel_button">
+   <property name="geometry">
+    <rect>
+     <x>381</x>
+     <y>220</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="connected_devices_box">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>461</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Connected devices</string>
+   </property>
+   <widget class="QLabel" name="updating_time_label">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>20</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Updating time:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="updating_time">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>20</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="connecting_timeout">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="connecting_timeout_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Timeout:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="interface_box">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>461</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Interface</string>
+   </property>
+   <widget class="QLabel" name="language_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Language:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="language">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>18</y>
+      <width>113</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>English</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Russian</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>language</tabstop>
+  <tabstop>default_port</tabstop>
+  <tabstop>socket_timeout</tabstop>
+  <tabstop>polling_time</tabstop>
+  <tabstop>connecting_timeout</tabstop>
+  <tabstop>updating_time</tabstop>
+  <tabstop>apply_button</tabstop>
+  <tabstop>cancel_button</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
