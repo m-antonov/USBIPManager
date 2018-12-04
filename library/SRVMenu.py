@@ -43,16 +43,43 @@ async def async_srv_search(_self, addr_list, echo=True):
         search_result[srv_addr] = list()
         # Resetting server action menu to default state
         config.srv_array[srv_addr]["action_menu"] = QMenu()
-        # config.srv_array[srv_addr]["action_menu"].addAction(QAction(
-        #     QIcon("icon/server_disconnect.png"), "Connect all devices", _self))
         # Switching server action button to default state
         config.srv_array[srv_addr]["action_btn"].setEnabled(False)
+        # Connect all devices action
+        # TODO Action
+        connect_all = QAction(QIcon("icon/server_disconnect.png"), "Connect all devices", _self)
+        # Reset all hub ports action
+        reset_all = QAction(QIcon("icon/reset.png"), "Reset all hub ports", _self)
+
+        #
+        try:
+            with open(path.join("hub", "{0}.json".format(_self.config[srv_addr]["hub_json"]))) as fp:
+                hub_conf = load(fp)
+        #
+        except FileNotFoundError:
+            config.logging_result.append_text(_self, "Hub configuration file not found", err=True)
+            return
+
+        reset_all.triggered.connect(partial(hub_reset, _self, srv_addr, hub_conf))
+
         #
         if _self.config[srv_addr]["hub_json"] != "None":
             config.srv_array[srv_addr]["action_btn"].setEnabled(True)
-            action = QAction(QIcon("icon/reset.png"), "Reset all hub ports", _self)
-            action.triggered.connect(partial(hub_reset, _self, srv_addr))
-            config.srv_array[srv_addr]["action_menu"].addAction(action)
+            config.srv_array[srv_addr]["action_menu"].addAction(reset_all)
+
+            for hub_id in hub_conf:
+                for idx, port in enumerate(hub_conf[hub_id], 1):
+                    if port:
+                        # TODO Custom name for Hub/Port ID from the settings
+                        action = QAction(
+                            QIcon("icon/port.png"), "Reset : Hub ID {0} : Port {1}".format(hub_id, idx), _self)
+                        #
+                        idx_list = [0] * 7
+                        idx_list[idx - 1] = 1
+                        action.triggered.connect(partial(hub_reset, _self, srv_addr, {hub_id: idx_list}))
+                        config.srv_array[srv_addr]["action_menu"].addAction(action)
+
+            #
             config.srv_array[srv_addr]["action_menu"].addSeparator()
         #
         search_proc = await create_subprocess_shell(
@@ -71,6 +98,10 @@ async def async_srv_search(_self, addr_list, echo=True):
             if "" in section_list:
                 continue
             dev_bus, dev_name, *rest = [item.lstrip().rstrip() for item in section_list.pop(0).split(":")]
+
+            #
+            if connect_all not in config.srv_array[srv_addr]["action_menu"].actions():
+                config.srv_array[srv_addr]["action_menu"].addAction(connect_all)
 
             #
             search_result[srv_addr].append(dev_bus)
@@ -105,21 +136,21 @@ async def async_srv_search(_self, addr_list, echo=True):
 
 
 #
-def hub_reset(_self, srv_addr):
+def hub_reset(_self, srv_addr, hub_conf):
     # Initializing spinner
     spinner = QtWaitingSpinner(config.srv_array[srv_addr]["box"], True, True, Qt.ApplicationModal)
     #
-    _self.main_loop.create_task(async_hub_reset(_self, srv_addr, spinner))
+    _self.main_loop.create_task(async_hub_reset(_self, srv_addr, spinner, hub_conf))
 
 
 #
-async def async_hub_reset(_self, srv_addr, spinner):
+async def async_hub_reset(_self, srv_addr, spinner, hub_conf):
     #
-    _self.main_loop.run_in_executor(None, hub_reset_action, _self, srv_addr, spinner)
+    _self.main_loop.run_in_executor(None, hub_reset_action, _self, srv_addr, spinner, hub_conf)
 
 
 #
-def hub_reset_action(_self, srv_addr, spinner):
+def hub_reset_action(_self, srv_addr, spinner, hub_conf):
     # Starting spinner
     config.spinner_queue.start_spinner(spinner)
 
@@ -136,16 +167,8 @@ def hub_reset_action(_self, srv_addr, spinner):
     timeout = float(_self.config[srv_addr]["hub_timeout"])
 
     #
-    try:
-        with open(path.join("hub", "{0}.json".format(_self.config[srv_addr]["hub_json"]))) as fp:
-            conf = load(fp)
-    #
-    except FileNotFoundError:
-        return
-
-    #
-    for hub_id in conf:
-        for idx, port in enumerate(conf[hub_id], 1):
+    for hub_id in hub_conf:
+        for idx, port in enumerate(hub_conf[hub_id], 1):
             if port:
                 config.logging_result.append_text(
                     _self, "Rebooting the {0} server hub #{1} port #{2}".format(srv_addr, hub_id, idx))
