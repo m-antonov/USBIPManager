@@ -1,26 +1,17 @@
 #
 from os import remove
 #
-from time import sleep
-#
 from datetime import datetime
 #
 from math import floor, log, pow
 #
 from ipaddress import ip_address
-# Async threading interface
-from asyncio import all_tasks
-from threading import Event, Thread
 # Interaction with the configuration *.ini files
 from configparser import ConfigParser
-#
-from library.QtWaitingSpinner import QtWaitingSpinner
 # PyQt5 modules
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QObject, pyqtSignal, Qt, QRegExp
+from PyQt5.QtCore import QObject, pyqtSignal, QRegExp
 from PyQt5.QtWidgets import QMessageBox
-#
-from subprocess import STARTUPINFO, STARTF_USESHOWWINDOW, Popen, PIPE
 
 
 # ============================================================================ #
@@ -157,103 +148,32 @@ search_result.listCleared.connect(lambda _self: clear_list(_self))
 
 #
 class SpinnerQueue(QObject):
-    spinnerStarted = pyqtSignal(object)
-    spinnerStopped = pyqtSignal(object)
+    spinnerStarted = pyqtSignal(list)
+    spinnerStopped = pyqtSignal(list)
 
-    def start_spinner(self, spinner):
-        self.spinnerStarted.emit(spinner)
+    def start_spinner(self, spinners):
+        self.spinnerStarted.emit(spinners)
 
-    def stop_spinner(self, spinner):
-        self.spinnerStopped.emit(spinner)
-
-
-#
-def start_spinner(spinner):
-    spinner.start()
+    def stop_spinner(self, spinners):
+        self.spinnerStopped.emit(spinners)
 
 
 #
-def stop_spinner(spinner):
-    spinner.stop()
+def start_spinner(spinners):
+    for spinner in spinners:
+        spinner.start()
+
+
+#
+def stop_spinner(spinners):
+    for spinner in spinners:
+        spinner.stop()
 
 
 # Applying signals
 spinner_queue = SpinnerQueue()
-spinner_queue.spinnerStarted.connect(lambda spinner: start_spinner(spinner))
-spinner_queue.spinnerStopped.connect(lambda spinner: stop_spinner(spinner))
-
-
-# ============================================================================ #
-# CLASSES
-# ============================================================================ #
-
-#
-class KillProc(object):
-    def __init__(self, _self, spinner_obj, sw=False):
-        self._self = _self
-        self.sw = sw
-
-        # Initializing and starting spinner
-        self.spinner = QtWaitingSpinner(spinner_obj, True, True, Qt.ApplicationModal)
-        spinner_queue.start_spinner(self.spinner)
-
-        #
-        self.ready = Event()
-
-    def processing(self):
-        # Shutting down all usbip connections
-        shutdown = ConnectionShutdown(self._self, self.ready)
-        shutdown_thread = Thread(target=shutdown.processing, name="KillProc SW: {0}".format(self.sw), daemon=True)
-        shutdown_thread.start()
-        self.ready.wait()
-        #
-        capturing_disable(self._self)
-        # Stopping waiting spinner
-        spinner_queue.stop_spinner(self.spinner)
-
-        # Stopping all running processes
-        if self.sw:
-            for queue in all_tasks(self._self.main_loop):
-                queue.cancel()
-
-
-#
-class ConnectionShutdown(object):
-    def __init__(self, _self, ready):
-        self._self = _self
-        self.ready = ready
-
-        #
-        self.timeout = float(self._self.config["SETTINGS"]["connecting_timeout"])
-
-    def processing(self):
-        # Number of remaining devices
-        array_length = get_array_length(usbip_array)
-
-        #
-        for srv_addr in usbip_array:
-            # Copying of the keys to avoiding RuntimeError after query finished
-            for dev_bus in list(usbip_array[srv_addr]):
-                index = usbip_array[srv_addr][dev_bus]["d_index"]
-                # Reducing the number of remaining devices
-                array_length -= 1
-
-                # Eliminating windows console during process execution
-                startupinfo = STARTUPINFO()
-                startupinfo.dwFlags |= STARTF_USESHOWWINDOW
-                #
-                query = Popen(
-                    "usbip.exe -d {0}".format(index), stdin=PIPE, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
-                query.wait()
-
-                #
-                logging_result.append_text(
-                    self._self, "The {0} device has disconnected from the {1} server, {2} left".format(
-                        dev_bus, srv_addr, str(array_length)), warn=True)
-                #
-                sleep(self.timeout)
-        #
-        self.ready.set()
+spinner_queue.spinnerStarted.connect(lambda spinners: start_spinner(spinners))
+spinner_queue.spinnerStopped.connect(lambda spinners: stop_spinner(spinners))
 
 
 # ============================================================================ #
@@ -363,6 +283,13 @@ def alert_box(title, message, icon, detail=False):
     if detail:
         alert.setDetailedText(detail)
     alert.exec_()
+
+
+#
+def get_action(srv_addr, loop_filter):
+    for action in srv_array[srv_addr]["action_menu"].actions():
+        if loop_filter in action.text():
+            return action
 
 
 # ============================================================================ #

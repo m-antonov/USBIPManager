@@ -20,13 +20,12 @@ from psutil import process_iter, cpu_count
 # Plotting charts modules
 from pyqtgraph import setConfigOption, PlotWidget
 # Async threading interface
-from threading import Thread
 from asyncio import sleep, ProactorEventLoop, set_event_loop, CancelledError
 # PyQt5 modules
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QObject, pyqtSignal, Qt, QTranslator
-from PyQt5.QtWidgets import QMainWindow, QMenu, QAction, QGridLayout, QMessageBox, QApplication
+from PyQt5.QtWidgets import QWidget, QPushButton, QMainWindow, QMenu, QAction, QGridLayout, QMessageBox, QApplication
 
 # Watchdog utilities for monitoring file system events
 if config.watchdog_enable:
@@ -84,6 +83,26 @@ async def async_sw_usage(_self):
 # GUI
 # ============================================================================ #
 
+class CancelProcessButton(QWidget):
+    def __init__(self, main_width, main_height):
+        # noinspection PyArgumentList
+        super(CancelProcessButton, self).__init__()
+
+        self.main_width = main_width
+        self.main_height = main_height
+        self.cancel_button = QPushButton("Cancel process", self)
+
+    def paintEvent(self, event):
+        # w = self.cancel_button.width()
+        # h = self.cancel_button.height()
+        w = 131
+        h = 31
+
+        x = (self.main_width - w) / 2.0
+        y = (self.main_height - h) / 2.0
+        self.cancel_button.setGeometry(x, y, w, h)
+
+
 class ProgramUI(QMainWindow):
     def __init__(self, main_loop):
         # noinspection PyArgumentList
@@ -97,12 +116,15 @@ class ProgramUI(QMainWindow):
         # Getting the configuration from config.ini file
         self.config = config.get_config()
 
+        self.cancel_process = CancelProcessButton(self.frameGeometry().width(), self.frameGeometry().height())
+        self.cancel_process.setParent(None)
+
         # Setting actions for main menu buttons
         self.auto_find_button.clicked.connect(partial(ApplicationMenu.auto_find, self))
         self.add_server_button.clicked.connect(partial(ApplicationMenu.add_server, self))
         self.search_all_button.clicked.connect(partial(ApplicationMenu.search_all, self))
         self.connect_all_button.clicked.connect(partial(ApplicationMenu.connect_all, self))
-        self.disconnect_all_button.clicked.connect(partial(ApplicationMenu.disconnect_all, self))
+        self.disconnect_all_button.clicked.connect(partial(ApplicationMenu.disconnect_all, self, config.usbip_array))
         self.settings_button.clicked.connect(partial(ApplicationMenu.settings, self))
 
         #
@@ -204,10 +226,7 @@ class ProgramUI(QMainWindow):
         #
         if warning.clickedButton() == ok_button:
             #
-            close_query = config.KillProc(self, self, sw=True)
-            close_thread = Thread(target=close_query.processing, name="CloseThread", daemon=True)
-            close_thread.start()
-            #
+            ApplicationMenu.disconnect_all(self, config.usbip_array, sw_close=True)
             event.ignore()
         #
         elif warning.clickedButton() == cancel_button:

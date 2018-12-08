@@ -5,6 +5,8 @@ from library import SSH
 #
 from library import DevTreeArea
 #
+from library import ApplicationMenu
+#
 from library.ModalServerSettings import ServerSettingUI
 
 #
@@ -46,7 +48,6 @@ async def async_srv_search(_self, addr_list, echo=True):
         # Switching server action button to default state
         config.srv_array[srv_addr]["action_btn"].setEnabled(False)
         # Connect all devices action
-        # TODO Action
         connect_all = QAction(QIcon("icon/server_disconnect.png"), "Connect all devices", _self)
         # Reset all hub ports action
         reset_all = QAction(QIcon("icon/reset.png"), "Reset all hub ports", _self)
@@ -101,6 +102,7 @@ async def async_srv_search(_self, addr_list, echo=True):
 
             #
             if connect_all not in config.srv_array[srv_addr]["action_menu"].actions():
+                connect_all.triggered.connect(partial(ApplicationMenu.connect_all, _self, [srv_addr]))
                 config.srv_array[srv_addr]["action_menu"].addAction(connect_all)
 
             #
@@ -152,7 +154,7 @@ async def async_hub_reset(_self, srv_addr, spinner, hub_conf):
 #
 def hub_reset_action(_self, srv_addr, spinner, hub_conf):
     # Starting spinner
-    config.spinner_queue.start_spinner(spinner)
+    config.spinner_queue.start_spinner([spinner])
 
     # Checking if ssh connection not present and establishing ssh connection with server
     if srv_addr not in config.ssh_array:
@@ -208,24 +210,24 @@ def hub_reset_action(_self, srv_addr, spinner, hub_conf):
                 # Waiting for server udev process completion
                 sleep(timeout)
     # Stopping spinner
-    config.spinner_queue.stop_spinner(spinner)
+    config.spinner_queue.stop_spinner([spinner])
 
 
 # Actions with the server device action menu item
 def srv_connect(_self, srv_addr, dev_bus):
     # Creating the server device connection task
     _self.main_loop.create_task(async_srv_connect(_self, srv_addr, dev_bus))
+
     # Inverting state of the server device action menu item
-    # Looping through all server actions
-    for action in config.srv_array[srv_addr]["action_menu"].actions():
-        if dev_bus in action.text():
-            # Disconnect all previous signals
-            action.disconnect()
-            # Updates during the device connection procedure
-            action.setText(action.text().replace("Connect", "Disconnect"))
-            action.setIcon(QIcon("icon/device_connect.png"))
-            # Setting up new signal
-            action.triggered.connect(partial(srv_disconnect, _self, srv_addr, dev_bus))
+    action = config.get_action(srv_addr, dev_bus)
+    if action:
+        # Disconnect all previous signals
+        action.disconnect()
+        # Updates during the device connection procedure
+        action.setText(action.text().replace("Connect", "Disconnect"))
+        action.setIcon(QIcon("icon/device_connect.png"))
+        # Setting up new signal
+        action.triggered.connect(partial(srv_disconnect, _self, srv_addr, dev_bus))
 
 
 #
@@ -254,6 +256,14 @@ async def async_srv_connect(_self, srv_addr, dev_bus):
         array["d_index"] = max(port_list) + 1
 
     #
+    action = config.get_action(srv_addr, "Connect all")
+    if action:
+        action.disconnect()
+        action.setText(action.text().replace("Connect", "Disconnect"))
+        action.setIcon(QIcon("icon/server_connect.png"))
+        disconnect_array = {srv_addr: config.usbip_array[srv_addr].keys()}
+        action.triggered.connect(partial(ApplicationMenu.disconnect_all, _self, disconnect_array))
+    #
     array["event"] = Event()
     with ThreadPoolExecutor(max_workers=1, thread_name_prefix="USBIP: {0} {1}".format(srv_addr, dev_bus)) as pool:
         array["future"] = await _self.main_loop.run_in_executor(
@@ -271,20 +281,30 @@ def srv_disconnect(_self, srv_addr, dev_bus):
     except KeyError:
         return
     _self.main_loop.create_task(async_srv_disconnect(d_index))
+
     # Marking the future as canceled and interrupting inside blocking functions
     # config.usbip_array[srv_addr][dev_bus]["future"].cancel()
     config.usbip_array[srv_addr][dev_bus]["event"].set()
+
     # Inverting state of the server device action menu item
-    # Looping through all server actions
-    for action in config.srv_array[srv_addr]["action_menu"].actions():
-        if dev_bus in action.text():
-            # Disconnect all previous signals
-            action.disconnect()
-            # Updates during the device disconnection procedure
+    action = config.get_action(srv_addr, dev_bus)
+    if action:
+        # Disconnect all previous signals
+        action.disconnect()
+        # Updates during the device disconnection procedure
+        action.setText(action.text().replace("Disconnect", "Connect"))
+        action.setIcon(QIcon("icon/device_disconnect.png"))
+        # Setting up new signal
+        action.triggered.connect(partial(srv_connect, _self, srv_addr, dev_bus))
+
+    #
+    menu_action = config.srv_array[srv_addr]["action_menu"].actions()
+    if not [action.text() for action in menu_action if "Disconnect : " in action.text()]:
+        action = config.get_action(srv_addr, "Disconnect all")
+        if action:
             action.setText(action.text().replace("Disconnect", "Connect"))
-            action.setIcon(QIcon("icon/device_disconnect.png"))
-            # Setting up new signal
-            action.triggered.connect(partial(srv_connect, _self, srv_addr, dev_bus))
+            action.setIcon(QIcon("icon/server_disconnect.png"))
+            action.triggered.connect(partial(ApplicationMenu.connect_all, _self, [srv_addr]))
 
     #
     del config.usbip_array[srv_addr][dev_bus]
