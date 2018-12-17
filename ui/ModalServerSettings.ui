@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
+    <width>1001</width>
     <height>612</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1001</width>
+    <height>612</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1001</width>
+    <height>612</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>USBIPManager - Settings for</string>
@@ -78,7 +90,7 @@
   <widget class="QPushButton" name="apply_button">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>799</x>
      <y>580</y>
      <width>91</width>
      <height>23</height>
@@ -94,7 +106,7 @@
   <widget class="QPushButton" name="cancel_button">
    <property name="geometry">
     <rect>
-     <x>381</x>
+     <x>900</x>
      <y>580</y>
      <width>91</width>
      <height>23</height>
@@ -578,6 +590,98 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QGroupBox" name="capturing_box">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>10</y>
+     <width>511</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Data capturing</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <layout class="QGridLayout" name="capturing_layout">
+    <item row="0" column="0">
+     <widget class="QTreeWidget" name="capturing_tree">
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
+      </property>
+      <attribute name="headerDefaultSectionSize">
+       <number>120</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Device / Children</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Custom name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Byte index</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Matching</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="capturing_menu">
+      <item>
+       <widget class="QPushButton" name="capturing_find">
+        <property name="text">
+         <string>Auto find</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="capturing_save">
+        <property name="text">
+         <string>Save</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="capturing_insert">
+        <property name="text">
+         <string>Insert row</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="capturing_delete">
+        <property name="text">
+         <string>Delete row</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>server_name</tabstop>
@@ -592,6 +696,7 @@
   <tabstop>auth_type_password</tabstop>
   <tabstop>auth_type_none</tabstop>
   <tabstop>hub_json</tabstop>
+  <tabstop>hub_timeout</tabstop>
   <tabstop>hub_conf</tabstop>
   <tabstop>hub_conf_save</tabstop>
   <tabstop>hub_conf_insert</tabstop>
@@ -603,6 +708,12 @@
   <tabstop>local_sftp</tabstop>
   <tabstop>logging_time</tabstop>
   <tabstop>local_ssh</tabstop>
+  <tabstop>capturing_box</tabstop>
+  <tabstop>capturing_tree</tabstop>
+  <tabstop>capturing_find</tabstop>
+  <tabstop>capturing_save</tabstop>
+  <tabstop>capturing_insert</tabstop>
+  <tabstop>capturing_delete</tabstop>
   <tabstop>apply_button</tabstop>
   <tabstop>cancel_button</tabstop>
  </tabstops>

@@ -2,20 +2,58 @@
 from library import config
 
 #
-from json import dump, load
+from re import findall
+#
+from json import loads, load, dump
 #
 from os import listdir, path, remove
 # PyQt5 modules
 from PyQt5 import uic
 from PyQt5.QtCore import Qt, QPersistentModelIndex
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QDialog, QLineEdit, QHeaderView, QTableWidgetItem, \
-    QFileDialog
+from PyQt5.QtWidgets import QTreeWidgetItem, QWidget, QHBoxLayout, QCheckBox, QDialog, QLineEdit, QHeaderView, \
+    QTableWidgetItem, QFileDialog
+
+
+class CapturingTreeFilling(object):
+    def __init__(self, _self, srv_addr):
+        #
+        self._self = _self
+        self.srv_addr = srv_addr
+        self.capturing = config.get_capturing_config()
+        if self.capturing.has_section(srv_addr):
+            for row in self.capturing[self.srv_addr]:
+                dev_bus = row.split("[")[0]
+                child_id = findall(r"\[(.*?)\]", row).pop()
+                child_data = loads(self.capturing[self.srv_addr].get(row))
+                self.add_device(dev_bus)
+                self.add_child(dev_bus, child_id, child_data)
+
+    def add_device(self, dev_bus):
+        if not self.get_device(dev_bus):
+            self._self.capturing_tree.addTopLevelItem(QTreeWidgetItem([dev_bus]))
+            self._self.capturing_tree.expandAll()
+
+    def add_child(self, dev_bus, child_id, child_data):
+        dev_bus = self.get_device(dev_bus)
+        custom_name, byte_index, matching = child_data
+        child = QTreeWidgetItem(["Port ID: " + child_id, custom_name, ", ".join(byte_index), ", ".join(matching)])
+        dev_bus.addChild(child)
+
+    def get_device(self, dev_bus):
+        # Getting the device tree root and counting children
+        root = self._self.capturing_tree.invisibleRootItem()
+        child_count = root.childCount()
+        # Looping through children range and getting certain server address
+        for child in range(child_count):
+            device = root.child(child)
+            if device.text(0) == dev_bus:
+                return device
 
 
 class HubPortSelection(QWidget):
     def __init__(self, data, parent=None):
         # noinspection PyArgumentList
-        QWidget.__init__(self, parent)
+        super(HubPortSelection, self).__init__(parent)
 
         layout = QHBoxLayout()
         for idx, port in enumerate(data, 1):
@@ -104,6 +142,9 @@ class ServerSettingUI(QDialog):
 
         #
         self.checking_auth_type()
+
+        #
+        CapturingTreeFilling(self, self.srv_addr)
 
     #
     def text_changed(self):

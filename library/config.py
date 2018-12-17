@@ -292,6 +292,13 @@ def get_action(srv_addr, loop_filter):
             return action
 
 
+# Reading the capture configuration file
+def get_capturing_config():
+    capturing_config = ConfigParser()
+    capturing_config.read(["capturing.ini"], encoding="utf-8")
+    return capturing_config
+
+
 # ============================================================================ #
 # PARAMS AND VARIABLES
 # ============================================================================ #

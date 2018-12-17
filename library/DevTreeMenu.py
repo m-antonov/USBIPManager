@@ -10,8 +10,6 @@ from queue import Queue
 from threading import Event
 # Calling functions with positional arguments
 from functools import partial
-# Interaction with the configuration *.ini files
-from configparser import ConfigParser
 # PyQt5 modules
 from PyQt5.QtGui import QIcon
 
@@ -71,7 +69,7 @@ def data_disable(_self):
 #
 async def async_data_enable(_self):
     #
-    capturing_config = get_capturing_config()
+    capturing_config = config.get_capturing_config()
     #
     config.ep_array = dict()
     config.capture_array = dict()
@@ -173,7 +171,7 @@ def tooltip_string_gen(_self, srv_addr, dev_bus, dev_enum, capturing_config):
         #
         dev_place = "Config error"
         try:
-            dev_place = capturing_config[srv_addr][dev_bus + "[" + str(dev_child) + "]"]
+            dev_place = loads(capturing_config[srv_addr].get(dev_bus + "[" + str(dev_child) + "]"))[0]
         except KeyError as err:
             config.logging_result.append_text(
                 _self, "The {0} server device configuration for {1} port has not found in the capturing.ini".format(
@@ -181,7 +179,7 @@ def tooltip_string_gen(_self, srv_addr, dev_bus, dev_enum, capturing_config):
 
         #
         if dev_enum[dev_child]:
-            tooltip_string += "<b>{0}:</b> <font color='green'>FOUND</font>".format(dev_place)
+            tooltip_string += "<b>{0}:</b> <font color='green'>MATCHED</font>".format(dev_place)
         else:
             tooltip_string += "<b>{0}:</b> <font color='red'>NONE</font>".format(dev_place)
         if has_more:
@@ -198,10 +196,3 @@ def lookahead(iterable):
         yield last, True
         last = val
     yield last, False
-
-
-# Reading the capture configuration file
-def get_capturing_config():
-    capturing_config = ConfigParser()
-    capturing_config.read(["capturing.ini"], encoding="utf-8")
-    return capturing_config
