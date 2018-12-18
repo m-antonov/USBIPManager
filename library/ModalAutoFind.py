@@ -2,6 +2,8 @@
 from library import config
 
 #
+from os import remove
+#
 from functools import partial
 # Manipulating with IP addresses
 from ipaddress import IPv4Address
@@ -15,10 +17,6 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QRegExpValidator, QIcon
 from PyQt5.QtWidgets import QDialog, QListWidgetItem, QMenu, QAction
-
-
-def text_changed(linedit):
-    linedit.setStyleSheet("")
 
 
 # ============================================================================ #
@@ -43,7 +41,7 @@ class FindServerUI(QDialog):
         self.linedit_list = [self.range_from, self.range_to]
         #
         for linedit in self.linedit_list:
-            linedit.textChanged.connect(partial(text_changed, linedit))
+            linedit.textChanged.connect(partial(self.text_changed, linedit))
 
         # Setting IP validation for the search range
         ip_validator = QRegExpValidator(config.ip_regex, self)
@@ -70,6 +68,18 @@ class FindServerUI(QDialog):
     # ============================================================================ #
 
     #
+    def text_changed(self, linedit):
+        # Updating config.ini
+        remove("config.ini")
+        self.config.set("SETTINGS", "find_from_range", str(self.range_from.text()))
+        self.config.set("SETTINGS", "find_to_range", str(self.range_to.text()))
+        # Saving configuration to the ini file
+        with open("config.ini", "a", encoding="utf-8") as f:
+            self.config.write(f)
+        # Restoring default linedit stylesheet
+        linedit.setStyleSheet("")
+
+    #
     def call_auto_find(self):
         # Checking for empty string in obligatory line edit list
         if config.is_empty(self.linedit_list):
@@ -79,6 +89,9 @@ class FindServerUI(QDialog):
         if not config.is_valid(self.linedit_list):
             return
 
+        # Restoring default linedit stylesheet
+        self.range_from.setStyleSheet("")
+        self.range_to.setStyleSheet("")
         # Switching modal buttons to search state
         self.find_button.setEnabled(False)
         self.stop_button.setEnabled(True)
@@ -89,14 +102,18 @@ class FindServerUI(QDialog):
     #
     def auto_find(self, event):
         #
-        from_range = int(IPv4Address(self.from_ip))
-        to_range = int(IPv4Address(self.to_ip))
+        from_range = int(IPv4Address(self.range_from.text()))
+        to_range = int(IPv4Address(self.range_to.text()))
         # Resetting progress and result text browser
         current_progress = 0
         config.progress_bar.set_progress(self, round(current_progress))
         config.search_result.clear_list(self)
         #
         iteration_qty = to_range - from_range + 1
+        if iteration_qty < 1:
+            self.range_from.setStyleSheet(config.linedit_stylesheet)
+            self.range_to.setStyleSheet(config.linedit_stylesheet)
+            return
         progress_chunk = 100 / iteration_qty
 
         srv_list = list()
