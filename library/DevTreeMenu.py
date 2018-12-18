@@ -75,11 +75,12 @@ async def async_data_enable(_self):
     config.capture_array = dict()
     #
     for srv_addr in config.usbip_array:
-        config.ep_array[srv_addr] = dict()
-        for dev_bus in config.usbip_array[srv_addr]:
-            stdin, stdout, stderr = await _self.main_loop.run_in_executor(
-                None, SSH.exec_query, srv_addr, "python get_data.py {0}".format(dev_bus))
-            config.ep_array[srv_addr][dev_bus] = loads(stdout.readline(2048).rstrip())
+        if _self.config[srv_addr].getboolean("data_capturing"):
+            config.ep_array[srv_addr] = dict()
+            for dev_bus in config.usbip_array[srv_addr]:
+                stdin, stdout, stderr = await _self.main_loop.run_in_executor(
+                    None, SSH.exec_query, srv_addr, "python get_data.py {0}".format(dev_bus))
+                config.ep_array[srv_addr][dev_bus] = loads(stdout.readline(2048).rstrip())
 
     #
     for srv_addr in config.ep_array:

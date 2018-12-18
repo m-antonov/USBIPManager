@@ -127,6 +127,9 @@ class ServerSettingUI(QDialog):
         self.local_sftp.setChecked(self.config[self.srv_addr].getboolean("log_sftp"))
         self.local_ssh.setChecked(self.config[self.srv_addr].getboolean("log_ssh"))
 
+        # Data capturing
+        self.capturing_box.setChecked(self.config[self.srv_addr].getboolean("data_capturing"))
+
         #
         self.search_filter.textChanged.connect(self.text_changed)
 
@@ -279,6 +282,8 @@ class ServerSettingUI(QDialog):
         # Server logging settings
         # Remote logging
         # Local logging
+        # Data capturing
+        self.config.set(self.srv_addr, "data_capturing", str(self.capturing_box.isChecked()))
         # Saving configuration to the ini file
         with open("config.ini", "a", encoding="utf-8") as f:
             self.config.write(f)
