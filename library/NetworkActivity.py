@@ -3,6 +3,8 @@ from asyncio import sleep
 # Plotting charts modules
 from pyqtgraph import mkPen
 #
+from functools import partial
+#
 from collections import deque
 #
 from psutil import net_io_counters
@@ -53,6 +55,13 @@ def box_context_menu(_self, event):
     menu = QMenu()
     #
     reset_action = QAction(QIcon("icon/reset.png"), "Reset activity", _self)
+    reset_action.triggered.connect(partial(reset_activity, _self))
     #
     menu.addAction(reset_action)
     menu.exec_(_self.activity_box.mapToGlobal(event))
+
+
+#
+def reset_activity(_self):
+    _self.activity_checking.cancel()
+    _self.activity_checking = _self.main_loop.create_task(async_get_activity(_self))
