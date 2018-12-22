@@ -11,32 +11,32 @@
     <message>
         <location filename="../ui/ModalAddServer.ui" line="41"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../ui/ModalAddServer.ui" line="73"/>
         <source>Server port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Порт сервера:</translation>
     </message>
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="86"/>
         <source>Search filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр поиска:</translation>
     </message>
     <message>
         <location filename="../ui/ModalAddServer.ui" line="99"/>
         <source>Server address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес сервера:</translation>
     </message>
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="73"/>
         <source>Server name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя сервера:</translation>
     </message>
     <message>
         <location filename="../ui/ModalSoftwareSettings.ui" line="123"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location filename="../ui/ModalSoftwareSettings.ui" line="139"/>
@@ -46,37 +46,37 @@
     <message>
         <location filename="../ui/ModalAutoFind.ui" line="26"/>
         <source>USBIPManager - Auto find</source>
-        <translation type="unfinished"></translation>
+        <translation>USBIPManager - Авто поиск</translation>
     </message>
     <message>
         <location filename="../ui/ModalAutoFind.ui" line="41"/>
         <source>IP range</source>
-        <translation type="unfinished"></translation>
+        <translation>Диапазон IP адресов</translation>
     </message>
     <message>
         <location filename="../ui/ModalAutoFind.ui" line="73"/>
         <source>From:</source>
-        <translation type="unfinished"></translation>
+        <translation>Начало:</translation>
     </message>
     <message>
         <location filename="../ui/ModalAutoFind.ui" line="86"/>
         <source>To:</source>
-        <translation type="unfinished"></translation>
+        <translation>Конец:</translation>
     </message>
     <message>
         <location filename="../ui/ModalAutoFind.ui" line="103"/>
         <source>Append</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <location filename="../ui/ModalAutoFind.ui" line="138"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Стоп</translation>
     </message>
     <message>
         <location filename="../ui/ModalAutoFind.ui" line="167"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Найти</translation>
     </message>
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="26"/>
@@ -146,7 +146,7 @@
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="328"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал событий</translation>
     </message>
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="340"/>
@@ -221,17 +221,17 @@
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="654"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="664"/>
         <source>Insert row</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить строку</translation>
     </message>
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="674"/>
         <source>Delete row</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить строку</translation>
     </message>
     <message>
         <location filename="../ui/ModalSoftwareSettings.ui" line="26"/>
@@ -291,7 +291,7 @@
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="603"/>
         <source>Data capturing</source>
-        <translation type="unfinished"></translation>
+        <translation>Захват данных</translation>
     </message>
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="619"/>
@@ -316,7 +316,7 @@
     <message>
         <location filename="../ui/ModalServerSettings.ui" line="644"/>
         <source>Auto find</source>
-        <translation type="unfinished"></translation>
+        <translation>Авто поиск</translation>
     </message>
 </context>
 <context>

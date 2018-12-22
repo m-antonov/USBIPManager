@@ -5,6 +5,8 @@ from library import SRVMenu
 #
 from library import ApplicationMenu
 
+#
+import builtins
 # Async threading interface
 from asyncio import sleep
 # Calling functions with positional arguments
@@ -15,6 +17,10 @@ from socket import socket, AF_INET, SOCK_STREAM, timeout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QGroupBox, QHBoxLayout, QPushButton, QMenu, QAction
+
+#
+if "_" not in dir(builtins):
+    from gettext import gettext as _
 
 
 # ============================================================================ #
@@ -79,11 +85,11 @@ def srv_get(_self):
             # Server layout
             config.srv_array[srv_addr]["layout"] = QHBoxLayout(config.srv_array[srv_addr]["box"])
             # Server buttons
-            config.srv_array[srv_addr]["search_btn"] = QPushButton("Search", config.srv_array[srv_addr]["box"])
+            config.srv_array[srv_addr]["search_btn"] = QPushButton(_("Search"), config.srv_array[srv_addr]["box"])
             config.srv_array[srv_addr]["search_btn"].clicked.connect(partial(SRVMenu.srv_search, _self, [srv_addr]))
-            config.srv_array[srv_addr]["action_btn"] = QPushButton("Actions", config.srv_array[srv_addr]["box"])
+            config.srv_array[srv_addr]["action_btn"] = QPushButton(_("Actions"), config.srv_array[srv_addr]["box"])
             config.srv_array[srv_addr]["action_btn"].setEnabled(False)
-            config.srv_array[srv_addr]["settings_btn"] = QPushButton("Settings", config.srv_array[srv_addr]["box"])
+            config.srv_array[srv_addr]["settings_btn"] = QPushButton(_("Settings"), config.srv_array[srv_addr]["box"])
             config.srv_array[srv_addr]["settings_btn"].clicked.connect(partial(SRVMenu.srv_settings, _self, srv_addr))
             # Adding server buttons to server layout
             config.srv_array[srv_addr]["layout"].addWidget(config.srv_array[srv_addr]["search_btn"])
@@ -103,14 +109,14 @@ def box_context_menu(_self, event):
     menu = QMenu()
     #
     # TODO Shut down all action
-    shutdown_action = QAction(QIcon("icon/shutdown.png"), "Shut down all", _self)
+    shutdown_action = QAction(QIcon("icon/shutdown.png"), _("Shut down all"), _self)
     shutdown_action.triggered.connect(box_pwr_off)
     #
-    add_action = QAction(QIcon("icon/add.png"), "Add server", _self)
+    add_action = QAction(QIcon("icon/add.png"), _("Add server"), _self)
     add_action.triggered.connect(partial(ApplicationMenu.add_server, _self))
     #
     # TODO Clear list action
-    clear_list = QAction(QIcon("icon/clear.png"), "Clear server list", _self)
+    clear_list = QAction(QIcon("icon/clear.png"), _("Clear"), _self)
     #
     menu.addAction(shutdown_action)
     menu.addAction(add_action)

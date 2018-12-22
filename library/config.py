@@ -1,7 +1,11 @@
 #
+import builtins
+#
 from os import remove
 #
 from datetime import datetime
+#
+from gettext import translation
 #
 from math import floor, log, pow
 #
@@ -31,15 +35,15 @@ def append_text(_self, text, success=False, warn=False, err=False):
     # Success message type
     if success:
         _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " +
-                         "<font color='green'>Success: </font>" + text)
+                         _("<font color='green'>Success: </font>") + text)
     # Warning message type
     elif warn:
         _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " +
-                         "<font color='orange'>Warning: </font>" + text)
+                         _("<font color='orange'>Warning: </font>") + text)
     # Error message type
     elif err:
         _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " +
-                         "<font color='red'>An error has occurred: </font>" + text)
+                         _("<font color='red'>An error has occurred: </font>") + text)
     # Default info message type
     else:
         _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " + text)
@@ -299,6 +303,13 @@ def get_capturing_config():
     return capturing_config
 
 
+#
+def install_translation():
+    ru = translation("base", localedir="lang", languages=["ru"])
+    ru.install()
+    _ = ru.gettext
+
+
 # ============================================================================ #
 # PARAMS AND VARIABLES
 # ============================================================================ #
@@ -335,3 +346,12 @@ ep_array = dict()
 #
 # TODO Documenting
 capture_array = dict()
+
+# Installing translator
+ini = get_config()
+if ini["SETTINGS"].getboolean("software_language"):
+    install_translation()
+
+#
+if "_" not in dir(builtins):
+    from gettext import gettext as _

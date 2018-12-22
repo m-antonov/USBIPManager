@@ -1,0 +1,112 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-12-21 16:14+0300\n"
+"PO-Revision-Date: 2018-12-21 16:24+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 2.0.7\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ..\..\USBIPManager.py:84
+msgid "% MEMORY: "
+msgstr "% MEMORY: "
+
+#: ..\..\USBIPManager.py:84
+msgid "CPU: "
+msgstr "CPU: "
+
+#: ..\..\USBIPManager.py:100 ..\..\USBIPManager.py:231
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ..\..\USBIPManager.py:152
+msgid "Enable data capturing"
+msgstr "Включить захват данных"
+
+#: ..\..\USBIPManager.py:157
+msgid "Reset data capturing"
+msgstr "Перезапустить захват данных"
+
+#: ..\..\USBIPManager.py:162
+msgid "Disable data capturing"
+msgstr "Отключить захват данных"
+
+#: ..\..\USBIPManager.py:208 ..\..\library\SRVArea.py:119
+msgid "Clear"
+msgstr "Очистить"
+
+#: ..\..\USBIPManager.py:227 ..\..\USBIPManager.py:249
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: ..\..\USBIPManager.py:228
+msgid "Are you sure want to exit? All current connections will be terminated!"
+msgstr "Вы действительно хотите выйти? Все текущие соединения будут закрыты!"
+
+#: ..\..\USBIPManager.py:230
+msgid "OK"
+msgstr "ОК"
+
+#: ..\..\USBIPManager.py:249
+msgid "Another instance is already running!"
+msgstr "Приложение уже запущено!"
+
+#: ..\..\library\ApplicationMenu.py:101
+msgid "The {0} device from the {1} server has connected, {2} left"
+msgstr "Устройство {0} с {1} сервера было подключено, {2} осталось"
+
+#: ..\..\library\ApplicationMenu.py:154
+msgid "The {0} device from the {1} server has disconnected, {2} left"
+msgstr "Устройство {0} с {1} сервера было отключено, {2} осталось"
+
+#: ..\..\library\SRVArea.py:88
+msgid "Search"
+msgstr "Поиск"
+
+#: ..\..\library\SRVArea.py:90
+msgid "Actions"
+msgstr "Действия"
+
+#: ..\..\library\SRVArea.py:92
+msgid "Settings"
+msgstr "Настройки"
+
+#: ..\..\library\SRVArea.py:112
+msgid "Shut down all"
+msgstr "Выключить все"
+
+#: ..\..\library\SRVArea.py:115
+msgid "Add server"
+msgstr "Добавить сервер"
+
+#: ..\..\library\config.py:38
+msgid "<font color='green'>Success: </font>"
+msgstr "<font color='green'>Успешно: </font>"
+
+#: ..\..\library\config.py:42
+msgid "<font color='orange'>Warning: </font>"
+msgstr "<font color='orange'>Предупреждение: </font>"
+
+#: ..\..\library\config.py:46
+msgid "<font color='red'>An error has occurred: </font>"
+msgstr "<font color='red'>Произошла ошибка: </font>"
+
+#~ msgid "Cancel process"
+#~ msgstr "Отмена операции"
+
+#~ msgid "Clear server list"
+#~ msgstr "Очистить список"
+
+#~ msgid "The {0} device has disconnected from the {1} server, {2} left"
+#~ msgstr "Устройство {0} было отключено с {1} сервера, {2} осталось"

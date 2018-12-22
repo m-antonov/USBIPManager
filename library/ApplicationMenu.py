@@ -9,6 +9,8 @@ from library.ModalAutoFind import FindServerUI
 from library.ModalAddServer import AddServerUI
 from library.ModalSoftwareSettings import SoftwareSettingUI
 
+#
+import builtins
 # PyQt5 modules
 from PyQt5.QtCore import Qt
 # Suppress specified exception
@@ -17,6 +19,10 @@ from contextlib import suppress
 from asyncio import sleep, all_tasks, CancelledError
 #
 from subprocess import STARTUPINFO, STARTF_USESHOWWINDOW, Popen, PIPE
+
+#
+if "_" not in dir(builtins):
+    from gettext import gettext as _
 
 
 # Displaying server auto find modal window
@@ -92,7 +98,7 @@ async def async_connect_all(_self, addr_list):
                     #
                     SRVMenu.srv_connect(_self, srv_addr, dev_bus)
                     config.logging_result.append_text(
-                        _self, "The {0} device has connected from the {1} server, {2} left".format(
+                        _self, _("The {0} device from the {1} server has connected, {2} left").format(
                             dev_bus, srv_addr, str(array_length)), success=True)
                     await sleep(timeout)
 
@@ -145,7 +151,7 @@ async def async_disconnect_all(_self, disconnect_array, sw_close):
 
             #
             config.logging_result.append_text(
-                _self, "The {0} device has disconnected from the {1} server, {2} left".format(
+                _self, _("The {0} device from the {1} server has disconnected, {2} left").format(
                     dev_bus, srv_addr, str(array_length)), warn=True)
             #
             await sleep(timeout)

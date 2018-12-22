@@ -10,6 +10,8 @@ from library import ApplicationMenu
 from library import NetworkActivity
 
 #
+import builtins
+#
 from os import path
 # System-specific parameters and functions
 from sys import argv, exit
@@ -31,6 +33,11 @@ from PyQt5.QtWidgets import QWidget, QPushButton, QMainWindow, QMenu, QAction, Q
 if config.watchdog_enable:
     from watchdog.observers import Observer
     from watchdog.events import FileSystemEventHandler
+
+#
+if "_" not in dir(builtins):
+    from gettext import gettext as _
+
 
 # ============================================================================ #
 # CLASSES
@@ -74,7 +81,7 @@ async def async_sw_usage(_self):
                 cpu_usage = str(proc.cpu_percent() / cpu_count())
                 memory_usage = str(config.convert_size(proc.memory_info().rss))
                 # Updating status bar
-                _self.statusBar().showMessage("CPU: " + cpu_usage + "% MEMORY: " + memory_usage)
+                _self.statusBar().showMessage(_("CPU: ") + cpu_usage + _("% MEMORY: ") + memory_usage)
 
                 await sleep(timeout)
 
@@ -90,7 +97,7 @@ class CancelProcessButton(QWidget):
 
         self.main_width = main_width
         self.main_height = main_height
-        self.cancel_button = QPushButton("Cancel process", self)
+        self.cancel_button = QPushButton(_("Cancel"), self)
 
     def paintEvent(self, event):
         # w = self.cancel_button.width()
@@ -142,17 +149,17 @@ class ProgramUI(QMainWindow):
 
         # Enabling data capture context action
         self.device_tree_menu["action"]["enable"] = \
-            QAction(QIcon("icon/enable.png"), "Enable data capturing", self)
+            QAction(QIcon("icon/enable.png"), _("Enable data capturing"), self)
         self.device_tree_menu["action"]["enable"].setEnabled(False)
 
         # Resetting data capture context action
         self.device_tree_menu["action"]["reset"] = \
-            QAction(QIcon("icon/reset.png"), "Reset data capturing", self)
+            QAction(QIcon("icon/reset.png"), _("Reset data capturing"), self)
         self.device_tree_menu["action"]["reset"].setEnabled(False)
 
         # Disabling data capture context action
         self.device_tree_menu["action"]["disable"] = \
-            QAction(QIcon("icon/disable.png"), "Disable data capturing", self)
+            QAction(QIcon("icon/disable.png"), _("Disable data capturing"), self)
         self.device_tree_menu["action"]["disable"].setEnabled(False)
 
         #
@@ -198,7 +205,7 @@ class ProgramUI(QMainWindow):
     def log_context_menu(self, event):
         menu = QMenu()
         #
-        clear_log = QAction(QIcon("icon/clear.png"), "Clear log", self)
+        clear_log = QAction(QIcon("icon/clear.png"), _("Clear"), self)
         clear_log.triggered.connect(self.log.clear)
         #
         menu.addAction(clear_log)
@@ -217,11 +224,11 @@ class ProgramUI(QMainWindow):
     def closeEvent(self, event):
         # Setting up the alert message
         warning = QMessageBox()
-        warning.setWindowTitle("Warning")
-        warning.setText("Are you sure want to exit? All current connections will be terminated!")
+        warning.setWindowTitle(_("Warning"))
+        warning.setText(_("Are you sure want to exit? All current connections will be terminated!"))
         warning.setIcon(1)
-        ok_button = warning.addButton("OK", QMessageBox.YesRole)
-        cancel_button = warning.addButton("Cancel", QMessageBox.NoRole)
+        ok_button = warning.addButton(_("OK"), QMessageBox.YesRole)
+        cancel_button = warning.addButton(_("Cancel"), QMessageBox.NoRole)
         warning.exec_()
         #
         if warning.clickedButton() == ok_button:
@@ -239,7 +246,7 @@ if __name__ == "__main__":
     #
     if len(list([proc.info for proc in process_iter(attrs=["name"]) if config.program_title in proc.info["name"]])) > 1:
         # Setting up the alert message
-        config.alert_box("Warning", "Another instance is already running!", 1)
+        config.alert_box(_("Warning"), _("Another instance is already running!"), 1)
         # Closing the program
         exit()
 
@@ -247,7 +254,7 @@ if __name__ == "__main__":
     ini = config.get_config()
     if ini["SETTINGS"].getboolean("software_language"):
         translator = QTranslator()
-        translator.load("lang/ru_RU.qm")
+        translator.load("lang/ru/interface.qm")
         app.installTranslator(translator)
 
     # Preparing the main loop

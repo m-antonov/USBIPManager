@@ -1,0 +1,101 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2018-12-21 16:14+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1251\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: ..\..\USBIPManager.py:84
+msgid "% MEMORY: "
+msgstr ""
+
+#: ..\..\USBIPManager.py:84
+msgid "CPU: "
+msgstr ""
+
+#: ..\..\USBIPManager.py:100 ..\..\USBIPManager.py:231
+msgid "Cancel"
+msgstr ""
+
+#: ..\..\USBIPManager.py:152
+msgid "Enable data capturing"
+msgstr ""
+
+#: ..\..\USBIPManager.py:157
+msgid "Reset data capturing"
+msgstr ""
+
+#: ..\..\USBIPManager.py:162
+msgid "Disable data capturing"
+msgstr ""
+
+#: ..\..\USBIPManager.py:208 ..\..\library\SRVArea.py:119
+msgid "Clear"
+msgstr ""
+
+#: ..\..\USBIPManager.py:227 ..\..\USBIPManager.py:249
+msgid "Warning"
+msgstr ""
+
+#: ..\..\USBIPManager.py:228
+msgid "Are you sure want to exit? All current connections will be terminated!"
+msgstr ""
+
+#: ..\..\USBIPManager.py:230
+msgid "OK"
+msgstr ""
+
+#: ..\..\USBIPManager.py:249
+msgid "Another instance is already running!"
+msgstr ""
+
+#: ..\..\library\ApplicationMenu.py:101
+msgid "The {0} device from the {1} server has connected, {2} left"
+msgstr ""
+
+#: ..\..\library\ApplicationMenu.py:154
+msgid "The {0} device from the {1} server has disconnected, {2} left"
+msgstr ""
+
+#: ..\..\library\SRVArea.py:88
+msgid "Search"
+msgstr ""
+
+#: ..\..\library\SRVArea.py:90
+msgid "Actions"
+msgstr ""
+
+#: ..\..\library\SRVArea.py:92
+msgid "Settings"
+msgstr ""
+
+#: ..\..\library\SRVArea.py:112
+msgid "Shut down all"
+msgstr ""
+
+#: ..\..\library\SRVArea.py:115
+msgid "Add server"
+msgstr ""
+
+#: ..\..\library\config.py:38
+msgid "<font color='green'>Success: </font>"
+msgstr ""
+
+#: ..\..\library\config.py:42
+msgid "<font color='orange'>Warning: </font>"
+msgstr ""
+
+#: ..\..\library\config.py:46
+msgid "<font color='red'>An error has occurred: </font>"
+msgstr ""
+
