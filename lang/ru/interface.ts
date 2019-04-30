@@ -219,17 +219,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="654"/>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="158"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="664"/>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="168"/>
         <source>Insert row</source>
         <translation>Вставить строку</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="674"/>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="178"/>
         <source>Delete row</source>
         <translation>Удалить строку</translation>
     </message>
@@ -299,17 +299,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="624"/>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="65"/>
         <source>Custom name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="629"/>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="70"/>
         <source>Byte index</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="634"/>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="75"/>
         <source>Matching</source>
         <translation type="unfinished"></translation>
     </message>
@@ -317,6 +317,56 @@
         <location filename="../../ui/ModalServerSettings.ui" line="644"/>
         <source>Auto find</source>
         <translation>Авто поиск</translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="26"/>
+        <source>Capturing settings for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="38"/>
+        <source>Capturing settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="60"/>
+        <source>Port ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="90"/>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="95"/>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="100"/>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="105"/>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="119"/>
+        <source>Children quantity:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="142"/>
+        <source>Device address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCapturingSettings.ui" line="207"/>
+        <source>Generate children devices</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

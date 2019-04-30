@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-12-21 16:14+0300\n"
+"POT-Creation-Date: 2019-04-17 09:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,7 @@ msgid "Clear"
 msgstr ""
 
 #: ..\..\USBIPManager.py:227 ..\..\USBIPManager.py:249
+#: ..\..\library\config.py:311 ..\..\library\config.py:317
 msgid "Warning"
 msgstr ""
 
@@ -97,5 +98,13 @@ msgstr ""
 
 #: ..\..\library\config.py:46
 msgid "<font color='red'>An error has occurred: </font>"
+msgstr ""
+
+#: ..\..\library\config.py:311
+msgid "Please select entire row!"
+msgstr ""
+
+#: ..\..\library\config.py:317
+msgid "No configuration row selected!"
 msgstr ""
 

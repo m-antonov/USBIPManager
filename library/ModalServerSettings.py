@@ -1,5 +1,7 @@
 # Software configuration
 from library import config
+# Modal window interfaces
+from library.ModalCapturingSettings import CapturingSettingUI
 
 #
 from re import findall
@@ -9,7 +11,7 @@ from json import loads, load, dump
 from os import listdir, path, remove
 # PyQt5 modules
 from PyQt5 import uic
-from PyQt5.QtCore import Qt, QPersistentModelIndex
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTreeWidgetItem, QWidget, QHBoxLayout, QCheckBox, QDialog, QLineEdit, QHeaderView, \
     QTableWidgetItem, QFileDialog
 
@@ -144,6 +146,9 @@ class ServerSettingUI(QDialog):
         self.select_button.clicked.connect(self.file_dialog)
 
         #
+        self.capturing_insert.clicked.connect(self.insert_capturing)
+
+        #
         self.checking_auth_type()
 
         #
@@ -245,16 +250,12 @@ class ServerSettingUI(QDialog):
 
     #
     def delete_row_hub_json(self):
-        if self.hub_conf.selectionModel().hasSelection():
-            index = [QPersistentModelIndex(index) for index in self.hub_conf.selectionModel().selectedRows()]
-            if not index:
-                config.alert_box("Warning", "Please select entire row!", 2)
-                return
-            for row in index:
-                self.hub_conf.removeRow(row.row())
-        else:
-            # Setting up the alert message
-            config.alert_box("Warning", "No configuration row selected!", 2)
+        config.table_row_delete(self.hub_conf)
+
+    #
+    def insert_capturing(self):
+        device_capturing = CapturingSettingUI(self, self.srv_addr)
+        device_capturing.show()
 
     #
     def apply_action(self):

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-12-21 16:14+0300\n"
-"PO-Revision-Date: 2018-12-21 16:24+0300\n"
+"POT-Creation-Date: 2019-04-17 09:30+0300\n"
+"PO-Revision-Date: 2019-04-17 09:34+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -47,6 +47,7 @@ msgid "Clear"
 msgstr "Очистить"
 
 #: ..\..\USBIPManager.py:227 ..\..\USBIPManager.py:249
+#: ..\..\library\config.py:311 ..\..\library\config.py:317
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -101,6 +102,14 @@ msgstr "<font color='orange'>Предупреждение: </font>"
 #: ..\..\library\config.py:46
 msgid "<font color='red'>An error has occurred: </font>"
 msgstr "<font color='red'>Произошла ошибка: </font>"
+
+#: ..\..\library\config.py:311
+msgid "Please select entire row!"
+msgstr "Пожалуйста, выберите строку целиком!"
+
+#: ..\..\library\config.py:317
+msgid "No configuration row selected!"
+msgstr "Не выбрана строка конфигурации!"
 
 #~ msgid "Cancel process"
 #~ msgstr "Отмена операции"

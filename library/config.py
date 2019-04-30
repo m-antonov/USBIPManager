@@ -14,7 +14,7 @@ from ipaddress import ip_address
 from configparser import ConfigParser
 # PyQt5 modules
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QObject, pyqtSignal, QRegExp
+from PyQt5.QtCore import QObject, pyqtSignal, QPersistentModelIndex, QRegExp
 from PyQt5.QtWidgets import QMessageBox
 
 
@@ -301,6 +301,20 @@ def get_capturing_config():
     capturing_config = ConfigParser()
     capturing_config.read(["capturing.ini"], encoding="utf-8")
     return capturing_config
+
+
+#
+def table_row_delete(table_widget):
+    if table_widget.selectionModel().hasSelection():
+        index = [QPersistentModelIndex(index) for index in table_widget.selectionModel().selectedRows()]
+        if not index:
+            alert_box(_("Warning"), _("Please select entire row!"), 2)
+            return
+        for row in index:
+            table_widget.removeRow(row.row())
+    else:
+        # Setting up the alert message
+        alert_box(_("Warning"), _("No configuration row selected!"), 2)
 
 
 #
