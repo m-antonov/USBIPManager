@@ -1,7 +1,7 @@
 #
 import builtins
 #
-from os import remove
+from os import remove, path, chdir
 #
 from datetime import datetime
 #
@@ -360,6 +360,10 @@ ep_array = dict()
 #
 # TODO Documenting
 capture_array = dict()
+
+# Setting the working directory
+BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
+chdir(BASE_DIR)
 
 # Installing translator
 ini = get_config()
