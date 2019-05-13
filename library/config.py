@@ -192,12 +192,19 @@ def get_config():
 
 
 # Adding a server to the configuration file
-def config_add(linedit_list):
+def config_add(srv_addr, params):
     config = ConfigParser()
-    section = linedit_list.pop(0).text()
-    config.add_section(section)
-    for linedit in linedit_list:
-        config.set(section, linedit.objectName(), linedit.text())
+    config.add_section(srv_addr)
+
+    # Setting server port, search filter and server name
+    for param in params:
+        config.set(srv_addr, param, params[param])
+
+    # Setting remaining default values
+    for key in default_srv_ini:
+        config.set(srv_addr, key, default_srv_ini[key])
+
+    # Writing to the configuration file
     with open("config.ini", "a", encoding="utf-8") as f:
         config.write(f)
 
@@ -341,6 +348,28 @@ ip_regex = QRegExp("^" + ip_range + "\\." + ip_range + "\\." + ip_range + "\\." 
 #
 # TODO Documenting
 linedit_stylesheet = "background-color: rgb(244, 125, 85); border: 0.5px solid rgb(63, 63, 63);"
+
+# Default key / value parameters for server configuration
+default_srv_ini = {
+    'auth_ssh_port': '10050',
+    'auth_username': 'usbip',
+    'auth_password': 'usbip',
+    'key_path': '',
+    'key_passphrase': '',
+    'auth_type_key': 'False',
+    'auth_type_password': 'False',
+    'auth_type_none': 'True',
+    'hub_json': 'None',
+    'hub_timeout': '3',
+    'log_daemon': 'False',
+    'log_kernel': 'False',
+    'log_syslog': 'False',
+    'log_user': 'False',
+    'log_sftp': 'False',
+    'log_ssh': 'False',
+    'logging_time': '30',
+    'data_capturing': 'False',
+}
 
 #
 # TODO Documenting

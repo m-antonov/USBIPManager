@@ -48,8 +48,13 @@ class AddServerUI(QDialog):
         if not config.is_valid([self.server_address]):
             return
 
-        self.linedit_list.append(self.server_name)
-        config.config_add(self.linedit_list)
+        # Inserting a server to the configuration file
+        params = {
+            "server_port": self.server_port.text(),
+            "search_filter": self.search_filter.text(),
+            "server_name": self.server_name.text()
+        }
+        config.config_add(self.server_address.text(), params)
 
         # Closing the modal window
         self.close()

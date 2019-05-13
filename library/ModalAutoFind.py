@@ -169,6 +169,13 @@ class FindServerUI(QDialog):
             detail = "\n".join(collision_list)
             config.alert_box("Warning", "Some addresses have already been added! Please uncheck them first!", 1, detail)
         else:
+            params = {
+                "server_port": self.config["SETTINGS"]["server_default_port"],
+                "search_filter": "*",
+                "server_name": ""
+            }
+            for srv_addr in found_list:
+                config.config_add(srv_addr, params)
             self.close()
 
     #
