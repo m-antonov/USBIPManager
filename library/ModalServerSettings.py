@@ -105,6 +105,8 @@ class ServerSettingUI(QDialog):
 
         #
         self.hub_json.currentIndexChanged.connect(self.checking_hub_json)
+        # Setting a non-existent index to force a dropdown menu check
+        self.hub_json.setCurrentIndex(-1)
         self.hub_json.setCurrentIndex(
             self.hub_json.findText(self.config[self.srv_addr]["hub_json"], Qt.MatchFixedString))
 
@@ -257,8 +259,9 @@ class ServerSettingUI(QDialog):
         device_capturing = CapturingSettingUI(self, self.srv_addr)
         device_capturing.show()
 
-    #
+    # Saving server parameters to the configuration file
     def apply_action(self):
+        # TODO Checking for the presence of empty required input fields when activating parameters such as USB, SSH, etc
         # Checking for empty string in obligatory line edit list
         if config.is_empty([self.search_filter]):
             return
@@ -275,11 +278,11 @@ class ServerSettingUI(QDialog):
         self.config.set(self.srv_addr, "key_path", str(self.key_path.text()))
         self.config.set(self.srv_addr, "key_passphrase", str(self.key_passphrase.text()))
         #
-        # TODO USB hub configuration
-        #
         self.config.set(self.srv_addr, "auth_type_key", str(self.auth_type_key.isChecked()))
         self.config.set(self.srv_addr, "auth_type_password", str(self.auth_type_password.isChecked()))
         self.config.set(self.srv_addr, "auth_type_none", str(self.auth_type_none.isChecked()))
+        # Hub configuration
+        self.config.set(self.srv_addr, "hub_json", str(self.hub_json.currentText()))
         # Server logging settings
         # Remote logging
         # Local logging
