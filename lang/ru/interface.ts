@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru" sourcelanguage="en">
+<!DOCTYPE TS><TS version="2.0" language="ru" sourcelanguage="en">
 <context>
     <name>Dialog</name>
     <message>
@@ -14,7 +13,7 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalAddServer.ui" line="73"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="99"/>
         <source>Server port:</source>
         <translation>Порт сервера:</translation>
     </message>
@@ -89,127 +88,127 @@
         <translation>Основные</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="132"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="155"/>
         <source>Connection</source>
         <translation>Подключение</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="154"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="177"/>
         <source>Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="167"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="190"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="183"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="206"/>
         <source>Username - password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="196"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="219"/>
         <source>Auth type:</source>
         <translation>Авторизация:</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="209"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="232"/>
         <source>Username - key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="222"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="245"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="235"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="258"/>
         <source>Username:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="268"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="291"/>
         <source>Passphrase:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="510"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="533"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="304"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="327"/>
         <source>SSH port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="328"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="351"/>
         <source>Logging</source>
         <translation>Журнал событий</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="340"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="363"/>
         <source>Local</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="352"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="375"/>
         <source>SSH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="365"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="388"/>
         <source>SFTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="379"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="402"/>
         <source>Remote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="391"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="414"/>
         <source>DAEMON</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="404"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="427"/>
         <source>KERNEL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="417"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="440"/>
         <source>SYSLOG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="430"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="453"/>
         <source>USER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="453"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="476"/>
         <source>Logging time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="468"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="491"/>
         <source>USB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="490"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="513"/>
         <source>Hub ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="495"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="518"/>
         <source>Ports</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="524"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="547"/>
         <source>Configuration:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -289,12 +288,12 @@
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="603"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="626"/>
         <source>Data capturing</source>
         <translation>Захват данных</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="619"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="642"/>
         <source>Device / Children</source>
         <translation type="unfinished"></translation>
     </message>
@@ -314,7 +313,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/ModalServerSettings.ui" line="644"/>
+        <location filename="../../ui/ModalServerSettings.ui" line="667"/>
         <source>Auto find</source>
         <translation>Авто поиск</translation>
     </message>
