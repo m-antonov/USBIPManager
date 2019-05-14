@@ -12,8 +12,13 @@ from os import listdir, path, remove
 # PyQt5 modules
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTreeWidgetItem, QWidget, QHBoxLayout, QCheckBox, QDialog, QLineEdit, QHeaderView, \
-    QTableWidgetItem, QFileDialog
+from PyQt5.QtWidgets import QTreeWidgetItem, QWidget, QHBoxLayout, QCheckBox, QGroupBox, QDialog, QLineEdit, \
+    QRadioButton, QHeaderView, QTableWidgetItem, QComboBox, QFileDialog
+
+
+#
+def text_changed(obj):
+    obj.setStyleSheet("")
 
 
 class CapturingTreeFilling(object):
@@ -79,23 +84,23 @@ class ServerSettingUI(QDialog):
         # Window title
         self.setWindowTitle(self.windowTitle() + " {0}".format(self.srv_addr))
 
-        # Getting the configuration from config.ini file
+        # Getting configuration and setting parameters of modal window input fields
         self.config = config.get_config()
-        #
-        self.server_name.setText(self.config[self.srv_addr]["server_name"])
-        self.search_filter.setText(self.config[self.srv_addr]["search_filter"])
-        #
-        self.auth_ssh_port.setText(self.config[self.srv_addr]["auth_ssh_port"])
-        self.auth_username.setText(self.config[self.srv_addr]["auth_username"])
-        self.auth_password.setText(self.config[self.srv_addr]["auth_password"])
+        for param in config.default_srv_ini:
+            obj = getattr(self, param)
+            if isinstance(obj, QLineEdit):
+                obj.setText(self.config[self.srv_addr][param])
+                # noinspection PyUnresolvedReferences
+                obj.textChanged.connect(lambda text, linedit=obj: text_changed(linedit))
+            if isinstance(obj, QRadioButton):
+                obj.setChecked(self.config[self.srv_addr].getboolean(param))
+                obj.clicked.connect(self.checking_auth_type)
+            if isinstance(obj, QCheckBox) or isinstance(obj, QGroupBox):
+                obj.setChecked(self.config[self.srv_addr].getboolean(param))
+
+        # Setting a mask on the password fields
         self.auth_password.setEchoMode(QLineEdit.Password)
-        self.key_path.setText(self.config[self.srv_addr]["key_path"])
-        self.key_passphrase.setText(self.config[self.srv_addr]["key_passphrase"])
         self.key_passphrase.setEchoMode(QLineEdit.Password)
-        #
-        self.auth_type_key.setChecked(self.config[self.srv_addr].getboolean("auth_type_key"))
-        self.auth_type_password.setChecked(self.config[self.srv_addr].getboolean("auth_type_password"))
-        self.auth_type_none.setChecked(self.config[self.srv_addr].getboolean("auth_type_none"))
 
         # Reading the hub configuration directory and filling the combobox
         for file in listdir("hub"):
@@ -118,31 +123,6 @@ class ServerSettingUI(QDialog):
         self.hub_conf_delete.clicked.connect(self.delete_row_hub_json)
 
         #
-        self.hub_timeout.setText(self.config[self.srv_addr]["hub_timeout"])
-
-        # Server logging settings
-        # Remote logging
-        self.remote_daemon.setChecked(self.config[self.srv_addr].getboolean("log_daemon"))
-        self.remote_kernel.setChecked(self.config[self.srv_addr].getboolean("log_kernel"))
-        self.remote_syslog.setChecked(self.config[self.srv_addr].getboolean("log_syslog"))
-        self.remote_user.setChecked(self.config[self.srv_addr].getboolean("log_user"))
-        self.logging_time.setText(self.config[self.srv_addr]["logging_time"])
-        # Local logging
-        self.local_sftp.setChecked(self.config[self.srv_addr].getboolean("log_sftp"))
-        self.local_ssh.setChecked(self.config[self.srv_addr].getboolean("log_ssh"))
-
-        # Data capturing
-        self.capturing_box.setChecked(self.config[self.srv_addr].getboolean("data_capturing"))
-
-        #
-        self.search_filter.textChanged.connect(self.text_changed)
-
-        #
-        self.auth_type_key.clicked.connect(self.checking_auth_type)
-        self.auth_type_password.clicked.connect(self.checking_auth_type)
-        self.auth_type_none.clicked.connect(self.checking_auth_type)
-
-        #
         self.apply_button.clicked.connect(self.apply_action)
         self.cancel_button.clicked.connect(self.close)
         self.select_button.clicked.connect(self.file_dialog)
@@ -155,10 +135,6 @@ class ServerSettingUI(QDialog):
 
         #
         CapturingTreeFilling(self, self.srv_addr)
-
-    #
-    def text_changed(self):
-        self.search_filter.setStyleSheet("")
 
     #
     def checking_auth_type(self):
@@ -266,28 +242,17 @@ class ServerSettingUI(QDialog):
         if config.is_empty([self.search_filter]):
             return
 
-        # Updating config.ini
+        # Updating configuration
         remove("config.ini")
-        #
-        self.config.set(self.srv_addr, "search_filter", str(self.search_filter.text()))
-        self.config.set(self.srv_addr, "server_name", str(self.server_name.text()))
-        #
-        self.config.set(self.srv_addr, "auth_ssh_port", str(self.auth_ssh_port.text()))
-        self.config.set(self.srv_addr, "auth_username", str(self.auth_username.text()))
-        self.config.set(self.srv_addr, "auth_password", str(self.auth_password.text()))
-        self.config.set(self.srv_addr, "key_path", str(self.key_path.text()))
-        self.config.set(self.srv_addr, "key_passphrase", str(self.key_passphrase.text()))
-        #
-        self.config.set(self.srv_addr, "auth_type_key", str(self.auth_type_key.isChecked()))
-        self.config.set(self.srv_addr, "auth_type_password", str(self.auth_type_password.isChecked()))
-        self.config.set(self.srv_addr, "auth_type_none", str(self.auth_type_none.isChecked()))
-        # Hub configuration
-        self.config.set(self.srv_addr, "hub_json", str(self.hub_json.currentText()))
-        # Server logging settings
-        # Remote logging
-        # Local logging
-        # Data capturing
-        self.config.set(self.srv_addr, "data_capturing", str(self.capturing_box.isChecked()))
+        for param in config.default_srv_ini:
+            obj = getattr(self, param)
+            if isinstance(obj, QLineEdit):
+                self.config.set(self.srv_addr, param, str(obj.text()))
+            if isinstance(obj, QComboBox):
+                self.config.set(self.srv_addr, param, str(obj.currentText()))
+            if isinstance(obj, QRadioButton) or isinstance(obj, QCheckBox) or isinstance(obj, QGroupBox):
+                self.config.set(self.srv_addr, param, str(obj.isChecked()))
+
         # Saving configuration to the ini file
         with open("config.ini", "a", encoding="utf-8") as f:
             self.config.write(f)

@@ -75,7 +75,7 @@ async def async_data_enable(_self):
     config.capture_array = dict()
     #
     for srv_addr in config.usbip_array:
-        if _self.config[srv_addr].getboolean("data_capturing"):
+        if _self.config[srv_addr].getboolean("capturing_box"):
             config.ep_array[srv_addr] = dict()
             for dev_bus in config.usbip_array[srv_addr]:
                 stdin, stdout, stderr = await _self.main_loop.run_in_executor(

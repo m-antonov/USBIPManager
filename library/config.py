@@ -196,13 +196,13 @@ def config_add(srv_addr, params):
     config = ConfigParser()
     config.add_section(srv_addr)
 
-    # Setting server port, search filter and server name
+    # Setting default values
+    for key in default_srv_ini:
+        config.set(srv_addr, key, str(default_srv_ini[key]))
+
+    # Setting server port, search filter and server name from input parameters
     for param in params:
         config.set(srv_addr, param, params[param])
-
-    # Setting remaining default values
-    for key in default_srv_ini:
-        config.set(srv_addr, key, default_srv_ini[key])
 
     # Writing to the configuration file
     with open("config.ini", "a", encoding="utf-8") as f:
@@ -351,6 +351,9 @@ linedit_stylesheet = "background-color: rgb(244, 125, 85); border: 0.5px solid r
 
 # Default key / value parameters for server configuration
 default_srv_ini = {
+    'server_port': '',
+    'search_filter': '*',
+    'server_name': '',
     'auth_ssh_port': '10050',
     'auth_username': 'usbip',
     'auth_password': 'usbip',
@@ -361,14 +364,14 @@ default_srv_ini = {
     'auth_type_none': 'True',
     'hub_json': 'None',
     'hub_timeout': '3',
-    'log_daemon': 'False',
-    'log_kernel': 'False',
-    'log_syslog': 'False',
-    'log_user': 'False',
-    'log_sftp': 'False',
-    'log_ssh': 'False',
+    'remote_daemon': 'False',
+    'remote_kernel': 'False',
+    'remote_syslog': 'False',
+    'remote_user': 'False',
+    'local_sftp': 'False',
+    'local_ssh': 'False',
     'logging_time': '30',
-    'data_capturing': 'False',
+    'capturing_box': 'False',
 }
 
 #
