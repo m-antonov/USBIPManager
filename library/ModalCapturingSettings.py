@@ -15,6 +15,7 @@ class CapturingSettingUI(QDialog):
     def __init__(self, parent=None, srv_addr=None):
         # noinspection PyArgumentList
         super(CapturingSettingUI, self).__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         uic.loadUi("ui/ModalCapturingSettings.ui", self)
         self.srv_addr = srv_addr
 

@@ -27,6 +27,7 @@ class FindServerUI(QDialog):
     def __init__(self, parent=None):
         # noinspection PyArgumentList
         super(FindServerUI, self).__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         uic.loadUi("ui/ModalAutoFind.ui", self)
 
         # Getting the configuration from config.ini file

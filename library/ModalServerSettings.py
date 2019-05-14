@@ -78,6 +78,7 @@ class ServerSettingUI(QDialog):
     def __init__(self, parent=None, srv_addr=None):
         # noinspection PyArgumentList
         super(ServerSettingUI, self).__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         uic.loadUi("ui/ModalServerSettings.ui", self)
         self.srv_addr = srv_addr
 

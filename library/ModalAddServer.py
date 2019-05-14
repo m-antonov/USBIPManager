@@ -6,6 +6,7 @@ from functools import partial
 # PyQt5 modules
 from PyQt5 import uic
 from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
 
 
@@ -17,6 +18,7 @@ class AddServerUI(QDialog):
     def __init__(self, parent=None):
         # noinspection PyArgumentList
         super(AddServerUI, self).__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         uic.loadUi("ui/ModalAddServer.ui", self)
 
         # Getting the configuration from config.ini file

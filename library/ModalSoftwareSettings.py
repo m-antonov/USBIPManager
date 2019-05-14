@@ -8,6 +8,7 @@ from functools import partial
 # PyQt5 modules
 from PyQt5 import uic
 from PyQt5.QtGui import QIntValidator, QDoubleValidator
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
 
 
@@ -19,6 +20,7 @@ class SoftwareSettingUI(QDialog):
     def __init__(self, parent=None):
         # noinspection PyArgumentList
         super(SoftwareSettingUI, self).__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         uic.loadUi("ui/ModalSoftwareSettings.ui", self)
 
         # Getting the configuration from config.ini file
