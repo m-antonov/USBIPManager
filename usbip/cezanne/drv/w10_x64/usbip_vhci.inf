@@ -1,0 +1,67 @@
+;/*++
+;
+;    INF file for installing USB/IP vhci driver
+;
+;--*/
+[Version]
+Signature="$WINDOWS NT$"
+; USB class cannot be installed via legacy hardware. It can be done via devcon
+;Class=USB
+;ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Class=System
+ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider=%OpenSource%
+CatalogFile=usbip_vhci.cat
+DriverVer = 11/26/2019,0.3.0.0
+
+[Manufacturer]
+%StdMfg%=Standard,NTamd64
+
+[Standard.NTamd64]
+%DeviceDesc%=usbip_vhci_Device, root\usbip_vhci
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+usbip_vhci.sys  = 1,,
+
+[Drivers_Dir]
+usbip_vhci.sys
+
+[usbip_vhci_Device.NTamd64]
+CopyFiles=Drivers_Dir
+
+[usbip_vhci_Device.NTamd64.HW]
+AddReg=usbip_vhci_Device_AddReg
+
+[usbip_vhci_Device_AddReg]                            
+HKR,,DeviceCharacteristics,0x10001,0x0100         ; Use same security checks on relative opens
+;Using default permissions so comment out next lines
+;HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GRGWGX;;;BA)(A;;GRGWGX;;;WD)(A;;GRGWGX;;;RC)"      ; Allow generic-all access to all users
+;HKR,,Security,,"D:P(A;;GA;;;BA)(A;;GA;;;SY)"      ; Allow generic-all access to Built-in administrators and Local system 
+
+;-------------- Service installation
+[usbip_vhci_Device.NTamd64.Services]
+AddService = usbip_vhci,%SPSVCINST_ASSOCSERVICE%, usbip_vhci_Service_Inst
+
+; -------------- vhci driver install sections
+[usbip_vhci_Service_Inst]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\usbip_vhci.sys
+LoadOrderGroup = Extended Base
+
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+OpenSource = "Open Source"
+StdMfg = "USB/IP Project"
+DiskId1 = "USB/IP VHCI Disk"
+DeviceDesc = "USB/IP VHCI"
+ServiceDesc = "USB/IP VHCI Service"

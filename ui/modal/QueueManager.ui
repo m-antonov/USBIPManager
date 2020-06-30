@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QueueManagerUI</class>
+ <widget class="QDialog" name="QueueManagerUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>USBIPManager - Queue manager</string>
+  </property>
+  <layout class="QGridLayout" name="dialog_lyt">
+   <item row="0" column="0" colspan="3">
+    <widget class="QTabWidget" name="tab">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="thread_tab">
+      <attribute name="title">
+       <string>Thread</string>
+      </attribute>
+      <layout class="QGridLayout" name="thread_lyt">
+       <item row="0" column="0">
+        <widget class="QTableWidget" name="thread_table">
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="proc_tab">
+      <attribute name="title">
+       <string>Process</string>
+      </attribute>
+      <layout class="QGridLayout" name="proc_lyt">
+       <item row="0" column="0">
+        <widget class="QTableWidget" name="proc_table">
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="interface_tab">
+      <attribute name="title">
+       <string>Interface</string>
+      </attribute>
+      <layout class="QGridLayout" name="interface_lyt">
+       <item row="0" column="0">
+        <widget class="QTableWidget" name="interface_table">
+         <column>
+          <property name="text">
+           <string>Interface</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Parameter</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Description</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="cancel_btn">
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>91</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <spacer name="btn_spacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="terminate_btn">
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>91</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Terminate</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>tab</tabstop>
+  <tabstop>thread_table</tabstop>
+  <tabstop>proc_table</tabstop>
+  <tabstop>interface_table</tabstop>
+  <tabstop>terminate_btn</tabstop>
+  <tabstop>cancel_btn</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

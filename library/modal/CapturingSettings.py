@@ -16,7 +16,7 @@ class CapturingSettingUI(QDialog):
         # noinspection PyArgumentList
         super(CapturingSettingUI, self).__init__(parent)
         self.setAttribute(Qt.WA_DeleteOnClose)
-        uic.loadUi("ui/ModalCapturingSettings.ui", self)
+        uic.loadUi("ui/modal/CapturingSettings.ui", self)
         self.srv_addr = srv_addr
 
         # Window title

@@ -1,7 +1,7 @@
 # Software configuration
 from library import config
 # Modal window interfaces
-from library.ModalCapturingSettings import CapturingSettingUI
+from library.modal.CapturingSettings import CapturingSettingUI
 
 #
 from re import findall
@@ -79,7 +79,7 @@ class ServerSettingUI(QDialog):
         # noinspection PyArgumentList
         super(ServerSettingUI, self).__init__(parent)
         self.setAttribute(Qt.WA_DeleteOnClose)
-        uic.loadUi("ui/ModalServerSettings.ui", self)
+        uic.loadUi("ui/modal/ServerSettings.ui", self)
         self.srv_addr = srv_addr
 
         # Window title

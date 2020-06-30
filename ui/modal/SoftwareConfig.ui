@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SoftwareConfigUI</class>
+ <widget class="QDialog" name="SoftwareConfigUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>515</width>
+    <height>631</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>USBIPManager - Software configuration</string>
+  </property>
+  <layout class="QGridLayout" name="dialog_lyt">
+   <item row="2" column="0" colspan="3">
+    <spacer name="btn_spacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="4">
+    <widget class="QPushButton" name="cancel_btn">
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>91</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QPushButton" name="apply_btn">
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>91</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>OK</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="5">
+    <widget class="QGroupBox" name="gen_box">
+     <property name="title">
+      <string>General</string>
+     </property>
+     <layout class="QGridLayout" name="gen_box_lyt">
+      <item row="2" column="0">
+       <widget class="QGroupBox" name="dev_gen">
+        <property name="title">
+         <string>Device manager</string>
+        </property>
+        <layout class="QGridLayout" name="dev_gen_lyt">
+         <item row="0" column="3">
+          <widget class="QLabel" name="dev_dtch_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Detach span</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="dev_atch_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <spacer name="dev_gen_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="dev_atch_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Attach span</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLineEdit" name="dev_dtch_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QGroupBox" name="queue_gen">
+        <property name="title">
+         <string>Queue manager</string>
+        </property>
+        <layout class="QGridLayout" name="queue_gen_lyt">
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="queue_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <spacer name="queue_gen_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="queue_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Poll span</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QGroupBox" name="dmn_gen">
+        <property name="title">
+         <string>Daemon manager</string>
+        </property>
+        <layout class="QGridLayout" name="dmn_gen_lyt">
+         <item row="0" column="3">
+          <widget class="QLabel" name="clt_ver_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Client version</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <spacer name="dmn_gen_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="dmn_def_port">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="dmn_def_port_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Default port</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QComboBox" name="clt_ver">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>original</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>barbalion</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>cezanne</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="interface_gen">
+        <property name="title">
+         <string>Interface</string>
+        </property>
+        <layout class="QGridLayout" name="interface_gen_lyt">
+         <item row="0" column="2">
+          <spacer name="interface_gen_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="lang_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Language</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="lang">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>English</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Russian</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="5">
+    <widget class="QGroupBox" name="perf">
+     <property name="title">
+      <string>Performance</string>
+     </property>
+     <layout class="QGridLayout" name="perf_lyt">
+      <item row="3" column="0">
+       <widget class="QGroupBox" name="net_perf">
+        <property name="title">
+         <string>Network</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" name="net_perf_lyt">
+         <item row="0" column="2">
+          <widget class="QLineEdit" name="net_perf_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="net_perf_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Poll span</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <spacer name="net_perf_spacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLabel" name="net_perf_inc_cl_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Incoming color</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="net_perf_inc_wd_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Incoming width</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="net_perf_out_cl_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Outgoing color</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="net_perf_out_wd_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Outgoing width</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <spacer name="net_perf_spacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLineEdit" name="net_perf_inc_wd">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5">
+          <widget class="QComboBox" name="net_perf_inc_cl">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>Red</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Green</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Blue</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Cyan</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Magenta</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Yellow</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Key</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLineEdit" name="net_perf_out_wd">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5">
+          <widget class="QComboBox" name="net_perf_out_cl">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>Red</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Green</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Blue</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Cyan</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Magenta</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Yellow</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Key</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="net_perf_len_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Graph length</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QLineEdit" name="net_perf_len">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <spacer name="net_perf_spacer_1">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QGroupBox" name="sys_perf">
+        <property name="title">
+         <string>System</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" name="sys_perf_lyt">
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="sys_perf_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="sys_perf_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Poll span</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <spacer name="sys_perf_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="dmn_perf">
+        <property name="title">
+         <string>Daemon manager</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" name="dmn_perf_lyt">
+         <item row="0" column="3">
+          <widget class="QLabel" name="dmn_perf_sock_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Socket timeout</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="dmn_perf_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="dmn_perf_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Poll span</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLineEdit" name="dmn_perf_sock_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <spacer name="dmn_perf_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QGroupBox" name="dev_perf">
+        <property name="title">
+         <string>Device manager</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" name="dev_perf_lyt">
+         <item row="0" column="0">
+          <widget class="QLabel" name="dev_perf_tmo_lbl">
+           <property name="minimumSize">
+            <size>
+             <width>101</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Poll span</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="dev_perf_tmo">
+           <property name="minimumSize">
+            <size>
+             <width>113</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>113</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <spacer name="dev_perf_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>lang</tabstop>
+  <tabstop>dmn_def_port</tabstop>
+  <tabstop>clt_ver</tabstop>
+  <tabstop>dev_atch_tmo</tabstop>
+  <tabstop>dev_dtch_tmo</tabstop>
+  <tabstop>queue_tmo</tabstop>
+  <tabstop>dmn_perf</tabstop>
+  <tabstop>dmn_perf_tmo</tabstop>
+  <tabstop>dmn_perf_sock_tmo</tabstop>
+  <tabstop>dev_perf</tabstop>
+  <tabstop>dev_perf_tmo</tabstop>
+  <tabstop>sys_perf</tabstop>
+  <tabstop>sys_perf_tmo</tabstop>
+  <tabstop>net_perf</tabstop>
+  <tabstop>net_perf_tmo</tabstop>
+  <tabstop>net_perf_len</tabstop>
+  <tabstop>net_perf_inc_wd</tabstop>
+  <tabstop>net_perf_inc_cl</tabstop>
+  <tabstop>net_perf_out_wd</tabstop>
+  <tabstop>net_perf_out_cl</tabstop>
+  <tabstop>apply_btn</tabstop>
+  <tabstop>cancel_btn</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ru" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="ru" sourcelanguage="en">
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="../../ui/ModalAddServer.ui" line="26"/>
-        <source>USBIPManager - Add server</source>
-        <translation>USBIPManager - Добавить сервер</translation>
-    </message>
-    <message>
-        <location filename="../../ui/ModalAddServer.ui" line="41"/>
+        <location filename="../../ui/ModalCreateServer.ui" line="41"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -23,7 +19,7 @@
         <translation>Фильтр поиска:</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalAddServer.ui" line="99"/>
+        <location filename="../../ui/ModalCreateServer.ui" line="99"/>
         <source>Server address:</source>
         <translation>Адрес сервера:</translation>
     </message>
@@ -43,39 +39,29 @@
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalAutoFind.ui" line="26"/>
-        <source>USBIPManager - Auto find</source>
-        <translation>USBIPManager - Авто поиск</translation>
-    </message>
-    <message>
-        <location filename="../../ui/ModalAutoFind.ui" line="41"/>
+        <location filename="../../ui/ModalSelfSearch.ui" line="41"/>
         <source>IP range</source>
         <translation>Диапазон IP адресов</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalAutoFind.ui" line="73"/>
+        <location filename="../../ui/ModalSelfSearch.ui" line="73"/>
         <source>From:</source>
         <translation>Начало:</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalAutoFind.ui" line="86"/>
+        <location filename="../../ui/ModalSelfSearch.ui" line="86"/>
         <source>To:</source>
         <translation>Конец:</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalAutoFind.ui" line="103"/>
+        <location filename="../../ui/ModalSelfSearch.ui" line="103"/>
         <source>Append</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../../ui/ModalAutoFind.ui" line="138"/>
+        <location filename="../../ui/ModalSelfSearch.ui" line="138"/>
         <source>Stop</source>
         <translation>Стоп</translation>
-    </message>
-    <message>
-        <location filename="../../ui/ModalAutoFind.ui" line="167"/>
-        <source>Find</source>
-        <translation>Найти</translation>
     </message>
     <message>
         <location filename="../../ui/ModalServerSettings.ui" line="26"/>
@@ -366,6 +352,31 @@
         <location filename="../../ui/ModalCapturingSettings.ui" line="207"/>
         <source>Generate children devices</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalSelfSearch.ui" line="26"/>
+        <source>USBIPManager - Self search</source>
+        <translation>USBIPManager - Авто поиск</translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalSelfSearch.ui" line="167"/>
+        <source>Search</source>
+        <translation>Найти</translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalSoftwareSettings.ui" line="260"/>
+        <source>Network activity</source>
+        <translation>Сетевая активность</translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalSoftwareSettings.ui" line="279"/>
+        <source>System activity</source>
+        <translation>Системная активность</translation>
+    </message>
+    <message>
+        <location filename="../../ui/ModalCreateServer.ui" line="26"/>
+        <source>USBIPManager - Create server</source>
+        <translation>USBIPManager - Создать сервер</translation>
     </message>
 </context>
 <context>

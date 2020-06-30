@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ProgramUI</class>
- <widget class="QMainWindow" name="ProgramUI">
+ <class>USBIPManagerUI</class>
+ <widget class="QMainWindow" name="USBIPManagerUI">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1111</width>
-    <height>767</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>1111</width>
-    <height>767</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>USBIPManager - Main window</string>
+   <string>USBIPManager</string>
   </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
-  </property>
-  <widget class="QWidget" name="central_widget">
-   <layout class="QGridLayout" name="grid_layout">
+  <widget class="QWidget" name="main">
+   <layout class="QGridLayout" name="main_lyt">
     <property name="leftMargin">
      <number>9</number>
     </property>
@@ -36,386 +27,402 @@
     <property name="bottomMargin">
      <number>9</number>
     </property>
-    <item row="0" column="0">
-     <widget class="QGroupBox" name="menu_box">
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="dev_box">
       <property name="title">
-       <string>Main menu</string>
+       <string>Device manager</string>
       </property>
-      <layout class="QGridLayout" name="menu_box_layout">
+      <layout class="QGridLayout" name="dev_lyt">
        <item row="0" column="0">
-        <layout class="QHBoxLayout" name="main_menu_layout">
-         <item>
-          <layout class="QVBoxLayout" name="auto_find_layout">
-           <item>
-            <widget class="QPushButton" name="auto_find_button">
-             <property name="minimumSize">
-              <size>
-               <width>88</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../icon/auto_find.png</normaloff>../icon/auto_find.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>48</width>
-               <height>48</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="auto_find_label">
-             <property name="text">
-              <string>Auto find</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="add_server_layout">
-           <item>
-            <widget class="QPushButton" name="add_server_button">
-             <property name="minimumSize">
-              <size>
-               <width>88</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../icon/add_server.png</normaloff>../icon/add_server.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>48</width>
-               <height>48</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="add_server_label">
-             <property name="text">
-              <string>Add server</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="search_all_layout">
-           <item>
-            <widget class="QPushButton" name="search_all_button">
-             <property name="minimumSize">
-              <size>
-               <width>88</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../icon/search_all.png</normaloff>../icon/search_all.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>48</width>
-               <height>48</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="search_all_label">
-             <property name="text">
-              <string>Search all</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="connect_all_layout">
-           <item>
-            <widget class="QPushButton" name="connect_all_button">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>88</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../icon/connect_all.png</normaloff>../icon/connect_all.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>48</width>
-               <height>48</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="connect_all_label">
-             <property name="text">
-              <string>Connect all</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="disconnect_all_layout">
-           <item>
-            <widget class="QPushButton" name="disconnect_all_button">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>88</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../icon/disconnect_all.png</normaloff>../icon/disconnect_all.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>48</width>
-               <height>48</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="disconnect_all_label">
-             <property name="text">
-              <string>Disconnect all</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="settings_layout">
-           <item>
-            <widget class="QPushButton" name="settings_button">
-             <property name="minimumSize">
-              <size>
-               <width>88</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../icon/settings.png</normaloff>../icon/settings.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>48</width>
-               <height>48</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="settings_label">
-             <property name="text">
-              <string>Settings</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
+        <widget class="QTreeWidget" name="dev_tree">
+         <attribute name="headerDefaultSectionSize">
+          <number>140</number>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Device</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Incoming</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Outgoing</string>
+          </property>
+         </column>
+        </widget>
        </item>
       </layout>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QGroupBox" name="activity_box">
+     <widget class="QGroupBox" name="net_perf_box">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>175</height>
+       </size>
+      </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>112</height>
+        <height>175</height>
        </size>
       </property>
       <property name="title">
-       <string>Network activity</string>
+       <string>Network performance</string>
       </property>
+      <layout class="QGridLayout" name="net_perf_lyt"/>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QGroupBox" name="server_box">
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="menu_box">
       <property name="minimumSize">
        <size>
-        <width>592</width>
-        <height>300</height>
+        <width>452</width>
+        <height>175</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>592</width>
+        <width>452</width>
+        <height>175</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Application menu</string>
+      </property>
+      <layout class="QGridLayout" name="menu_lyt">
+       <item row="1" column="4">
+        <widget class="QToolButton" name="atch_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Attach all</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/conn_btn.png</normaloff>../icon/conn_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QToolButton" name="self_search_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Self search</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/self_search_btn.png</normaloff>../icon/self_search_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QToolButton" name="search_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Search all</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/search_btn.png</normaloff>../icon/search_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QToolButton" name="dtch_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Detach all</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/disconn_btn.png</normaloff>../icon/disconn_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QToolButton" name="load_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Load daemon</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/load_btn.png</normaloff>../icon/load_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QToolButton" name="queue_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Queue manager</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/queue_btn.png</normaloff>../icon/queue_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QToolButton" name="config_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Configuration</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/config_btn.png</normaloff>../icon/config_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QToolButton" name="doc_btn">
+         <property name="minimumSize">
+          <size>
+           <width>86</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>106</width>
+           <height>68</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none; hover {border: 1px} pressed {border: 1px}</string>
+         </property>
+         <property name="text">
+          <string>Documentation</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icon/doc_btn.png</normaloff>../icon/doc_btn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>48</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="dmn_box">
+      <property name="minimumSize">
+       <size>
+        <width>452</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>452</width>
         <height>16777215</height>
        </size>
       </property>
       <property name="title">
-       <string>Server list</string>
+       <string>Daemon manager</string>
       </property>
-      <layout class="QGridLayout" name="server_box_layout">
+      <layout class="QGridLayout" name="dmn_lyt">
        <item row="0" column="0">
-        <widget class="QScrollArea" name="scroll_area">
+        <widget class="QScrollArea" name="scroll">
          <property name="verticalScrollBarPolicy">
           <enum>Qt::ScrollBarAlwaysOn</enum>
          </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
-         <widget class="QWidget" name="scroll_content">
+         <widget class="QWidget" name="scroll_area">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>553</width>
-            <height>389</height>
+            <width>413</width>
+            <height>300</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="scroll_content_layout"/>
+          <layout class="QVBoxLayout" name="scroll_lyt"/>
          </widget>
         </widget>
        </item>
       </layout>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QGroupBox" name="device_box">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>300</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>Connected devices</string>
-      </property>
-      <layout class="QGridLayout" name="device_box_layout">
-       <item row="0" column="0">
-        <widget class="QTreeWidget" name="device_tree">
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOn</enum>
-         </property>
-         <attribute name="headerDefaultSectionSize">
-          <number>140</number>
-         </attribute>
-         <column>
-          <property name="text">
-           <string>Server / Device</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>To</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>From</string>
-          </property>
-         </column>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="2" column="0" colspan="2">
+    <item row="3" column="0" colspan="2">
      <widget class="QTextBrowser" name="log">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
@@ -424,10 +431,30 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QProgressBar" name="progress">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="status_bar"/>
+  <widget class="QStatusBar" name="sys_perf"/>
  </widget>
+ <tabstops>
+  <tabstop>self_search_btn</tabstop>
+  <tabstop>search_btn</tabstop>
+  <tabstop>atch_btn</tabstop>
+  <tabstop>dtch_btn</tabstop>
+  <tabstop>load_btn</tabstop>
+  <tabstop>queue_btn</tabstop>
+  <tabstop>config_btn</tabstop>
+  <tabstop>doc_btn</tabstop>
+  <tabstop>scroll</tabstop>
+  <tabstop>dev_tree</tabstop>
+  <tabstop>log</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

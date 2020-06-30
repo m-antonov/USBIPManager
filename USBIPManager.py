@@ -1,269 +1,202 @@
-# Software configuration
-from library import config
-#
-from library import SRVArea
-#
-from library import DevTreeMenu
-#
-from library import ApplicationMenu
-#
-from library import NetworkActivity
+from library import bar, compatibility, config, daemon, ini, lang, log, performance, queue
+from library.modal import LoadDaemon, SelfSearch, SoftwareConfig, QueueManager
 
-#
-import builtins
-#
-from os import path
-# System-specific parameters and functions
-from sys import argv, exit
-# Calling functions with positional arguments
-from functools import partial
-#
-from psutil import process_iter, cpu_count
-# Plotting charts modules
-from pyqtgraph import setConfigOption, PlotWidget
-# Async threading interface
-from asyncio import sleep, ProactorEventLoop, set_event_loop, CancelledError
-# PyQt5 modules
+from sys import argv
+from asyncio import sleep, CancelledError
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QObject, pyqtSignal, Qt, QTranslator
-from PyQt5.QtWidgets import QWidget, QPushButton, QMainWindow, QMenu, QAction, QGridLayout, QMessageBox, QApplication
-
-# Watchdog utilities for monitoring file system events
-if config.watchdog_enable:
-    from watchdog.observers import Observer
-    from watchdog.events import FileSystemEventHandler
-
-#
-if "_" not in dir(builtins):
-    from gettext import gettext as _
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QMenu, QAction, QMessageBox, QApplication
 
 
-# ============================================================================ #
-# CLASSES
-# ============================================================================ #
-
-#
-if config.watchdog_enable:
-    class ConfigWatchdog(FileSystemEventHandler, QObject):
-        fileUpdated = pyqtSignal()
-
-        def __init__(self):
-            super(ConfigWatchdog, self).__init__()
-
-        def file_updated(self):
-            self.fileUpdated.emit()
-
-        def on_modified(self, event):
-            if event.src_path == path.abspath("config.ini"):
-                self.file_updated()
-
-
-# ============================================================================ #
-# ASYNC FUNCTIONS
-# ============================================================================ #
-
-# Main processing events loop
-async def async_process_subprocess(qapp):
+async def _processing(application):
+    """ Process all pending events - keep interface alive """
     while True:
+        application.processEvents()
         await sleep(0)
-        qapp.processEvents()
 
 
-#
-async def async_sw_usage(_self):
-    #
-    timeout = float(_self.config["SETTINGS"]["status_updating_time"])
-    for proc in process_iter():
-        if config.program_title in proc.name():
-            while True:
-                # Getting and counting process cpu and memory usage
-                cpu_usage = str(proc.cpu_percent() / cpu_count())
-                memory_usage = str(config.convert_size(proc.memory_info().rss))
-                # Updating status bar
-                _self.statusBar().showMessage(_("CPU: ") + cpu_usage + _("% MEMORY: ") + memory_usage)
+class USBIPManagerUI(QMainWindow):
+    """ Main window """
+    def __init__(self):
+        super(USBIPManagerUI, self).__init__()
+        uic.loadUi('ui/USBIPManager.ui', self)
 
-                await sleep(timeout)
+        self.setWindowIcon(QIcon('icon/logo.png'))
 
+        self._center()
 
-# ============================================================================ #
-# GUI
-# ============================================================================ #
+        self._sw_config = ini.SWConfig(self)
 
-class CancelProcessButton(QWidget):
-    def __init__(self, main_width, main_height):
+        self._dmn_manager = ini.DaemonManage(self)
+
+        self._manager = queue.Manager(self)
+        self._atch_name = 'USBIP attach all'
+        self._dtch_name = 'USBIP detach all'
+
+        _repr = config.ProgressRepr(self.progress, self.__class__.__name__)
+        self._bar = bar.Manager(_repr.replace())
+
+        self._perf = performance.Manager(self)
+        self._perf.load()
+
+        self._log = log.Manager(self)
+        self._lang = lang.USBIPManagerUI
+
+        self.self_search_btn.clicked.connect(self._self_search)
+        self.search_btn.clicked.connect(self._search_all)
+        self.atch_btn.clicked.connect(self._atch_all)
+        self.dtch_btn.clicked.connect(self._dtch_all)
+        self.load_btn.clicked.connect(self._scroll_load)
+        self.queue_btn.clicked.connect(self._queue_manager)
+        self.config_btn.clicked.connect(self._configuration)
+        self.doc_btn.clicked.connect(self._documentation)
+
+        self._popup_param = ('scroll', 'log')
+        self._scroll_param = ('poweroff', 'load', 'clear')
+        self._log_param = ('clear', )
+
+        for action in self._popup_param:
+            setattr(self, f'_popup_{action}', self._popup_action(action))
+            _popup = getattr(self, f'_popup_{action}')
+            _obj = getattr(self, action)
+            _obj.setContextMenuPolicy(Qt.CustomContextMenu)
+            _obj.customContextMenuRequested.connect(_popup)
+            setattr(self, f'_menu_{action}', QMenu())
+            _menu = getattr(self, f'_menu_{action}')
+            _action_param = getattr(self, f'_{action}_param')
+            for param in _action_param:
+                _icon = QIcon(f'icon/{param}.png')
+                _lang = getattr(self._lang, f'Popup{action.capitalize()}{param.capitalize()}')
+                setattr(self, f'_action_{action}_{param}', QAction(_icon, _lang, _obj))
+                _action = getattr(self, f'_action_{action}_{param}')
+                _action.triggered.connect(getattr(self, f'_{action}_{param}'))
+                _menu.addAction(_action)
+
+        for _daemon in self.__all():
+            _daemon.load()
+
+    def __repr__(self):
+        """ Printable class representation for queue manager modal window """
+        return f'{self.__class__.__name__}'
+
+    def __all(self):
+        """ Daemon manager generator to get all from the configuration """
+        for ip_addr in self._dmn_manager.get_all():
+            yield daemon.Manager(self, ip_addr)
+
+    def _popup_action(self, action):
+        """ Function template for context menu instance """
+        def _template(coordinate):
+            """ Show the right-click popup menu in the action area """
+            _menu = getattr(self, f'_menu_{action}')
+            _obj = getattr(self, action)
+            _menu.exec_(_obj.mapToGlobal(coordinate))
+        return _template
+
+    async def _atch_dtch_all(self, action):
+        """ Attach/Detach all action with global progress bar processing """
+        _global_pool = list()
+        for _daemon in self.__all():
+            _global_pool += _daemon.usbip_pool()
+        if not _global_pool:
+            _lang = getattr(self._lang, f'{action.capitalize()}Separator')
+            self._log.setWarning(f'{_lang} : {self._lang.PoolEmpty}')
+            return getattr(self, f'{action}_btn').setEnabled(True)
+        _ep = 100 / len(_global_pool)
+        _span = getattr(self._sw_config, f'dev_{action}_tmo')
+        for _daemon in self.__all():
+            _local_pool = _daemon.usbip_pool()
+            for device in _local_pool:
+                self._bar.setRange(_span, _ep)
+                getattr(device, action)(100 / len(_local_pool))
+                await sleep(_span + 0.25)
+        return getattr(self, f'{action}_btn').setEnabled(True)
+
+    def _center(self):
+        """ Center main application window based on the cursor position for multiple displays """
+        _frame = self.frameGeometry()
         # noinspection PyArgumentList
-        super(CancelProcessButton, self).__init__()
+        _root = QApplication.desktop()
+        _active_screen = _root.screenNumber(_root.cursor().pos())
+        _center = _root.screenGeometry(_active_screen).center()
+        _frame.moveCenter(_center)
+        self.move(_frame.topLeft())
 
-        self.main_width = main_width
-        self.main_height = main_height
-        self.cancel_button = QPushButton(_("Cancel"), self)
+    def _self_search(self):
+        """ Self search application menu button action """
+        _dialog = SelfSearch.SelfSearchUI(self)
+        _dialog.show()
 
-    def paintEvent(self, event):
-        # w = self.cancel_button.width()
-        # h = self.cancel_button.height()
-        w = 131
-        h = 31
+    def _search_all(self):
+        """ Search all application menu button action """
+        for _daemon in self.__all():
+            _daemon.search()
 
-        x = (self.main_width - w) / 2.0
-        y = (self.main_height - h) / 2.0
-        self.cancel_button.setGeometry(x, y, w, h)
+    def _atch_all(self):
+        """ Attach all application menu button action """
+        self.atch_btn.setEnabled(False)
+        self._manager.exec(self._atch_dtch_all, self._atch_name, 'atch')
 
+    def _dtch_all(self):
+        """ Detach all application menu button action """
+        self.dtch_btn.setEnabled(False)
+        self._manager.exec(self._atch_dtch_all, self._dtch_name, 'dtch')
 
-class ProgramUI(QMainWindow):
-    def __init__(self, main_loop):
-        # noinspection PyArgumentList
-        super(ProgramUI, self).__init__()
-        uic.loadUi("ui/USBIPManager.ui", self)
-        self.show()
-        # Setting application icon
-        self.setWindowIcon(QIcon("icon/logo.png"))
-        # Application main loop
-        self.main_loop = main_loop
-        # Getting the configuration from config.ini file
-        self.config = config.get_config()
+    def _queue_manager(self):
+        """ Queue manager application menu button action """
+        _dialog = QueueManager.QueueManagerUI(self)
+        _dialog.show()
 
-        self.cancel_process = CancelProcessButton(self.frameGeometry().width(), self.frameGeometry().height())
-        self.cancel_process.setParent(None)
+    def _configuration(self):
+        """ Configuration application menu button action """
+        _dialog = SoftwareConfig.SoftwareConfigUI(self)
+        _dialog.show()
 
-        # Setting actions for main menu buttons
-        self.auto_find_button.clicked.connect(partial(ApplicationMenu.auto_find, self))
-        self.add_server_button.clicked.connect(partial(ApplicationMenu.add_server, self))
-        self.search_all_button.clicked.connect(partial(ApplicationMenu.search_all, self))
-        self.connect_all_button.clicked.connect(partial(ApplicationMenu.connect_all, self))
-        self.disconnect_all_button.clicked.connect(partial(ApplicationMenu.disconnect_all, self, config.usbip_array))
-        self.settings_button.clicked.connect(partial(ApplicationMenu.settings, self))
+    def _documentation(self):
+        """ Documentation application menu button action """
+        pass
 
-        #
-        self.log.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.log.customContextMenuRequested.connect(self.log_context_menu)
+    def _scroll_poweroff(self):
+        """ Scroll area right-click popup menu poweroff action """
+        pass
 
-        # Setting context menu for the server list box
-        self.server_box.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.server_box.customContextMenuRequested.connect(partial(SRVArea.box_context_menu, self))
+    def _scroll_load(self):
+        """ Load daemon application menu button action """
+        _dialog = LoadDaemon.LoadDaemonUI(self)
+        _dialog.show()
 
-        # Setting default context menu for the connected device tree box
-        self.device_tree_menu = dict()
-        self.device_tree_menu["menu"] = QMenu()
-        self.device_tree_menu["action"] = dict()
+    def _scroll_clear(self):
+        """ Scroll area right-click popup menu clear action """
+        pass
 
-        # Enabling data capture context action
-        self.device_tree_menu["action"]["enable"] = \
-            QAction(QIcon("icon/enable.png"), _("Enable data capturing"), self)
-        self.device_tree_menu["action"]["enable"].setEnabled(False)
+    def _log_clear(self):
+        """ Log area right-click popup menu clear action """
+        self.log.clear()
 
-        # Resetting data capture context action
-        self.device_tree_menu["action"]["reset"] = \
-            QAction(QIcon("icon/reset.png"), _("Reset data capturing"), self)
-        self.device_tree_menu["action"]["reset"].setEnabled(False)
-
-        # Disabling data capture context action
-        self.device_tree_menu["action"]["disable"] = \
-            QAction(QIcon("icon/disable.png"), _("Disable data capturing"), self)
-        self.device_tree_menu["action"]["disable"].setEnabled(False)
-
-        #
-        self.device_box.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.device_box.customContextMenuRequested.connect(partial(DevTreeMenu.box_context_menu, self))
-
-        # Setting activity plot
-        setConfigOption("background", "#FF000000")
-        activity_graph = PlotWidget()
-        activity_graph.setMenuEnabled(enableMenu=False)
-        activity_graph.setMouseEnabled(x=False, y=False)
-        activity_graph.showGrid(x=True, y=True)
-        activity_graph.hideButtons()
-        # Defining sent and received activity curves
-        self.sent_curve = activity_graph.getPlotItem().plot()
-        self.recv_curve = activity_graph.getPlotItem().plot()
-        # Setting activity box layout and adding activity plot to the program window
-        activity_layout = QGridLayout()
-        self.activity_box.setLayout(activity_layout)
-        activity_layout.addWidget(activity_graph)
-        self.activity_box.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.activity_box.customContextMenuRequested.connect(partial(NetworkActivity.box_context_menu, self))
-
-        # Getting the configuration and filling the server list with the found servers
-        SRVArea.srv_get(self)
-        # Starting checking servers availability process
-        self.srv_checking = self.main_loop.create_task(SRVArea.async_srv_check(self))
-        # Starting checking software cpu and memory usage process
-        self.usage_checking = self.main_loop.create_task(async_sw_usage(self))
-        # Starting checking network activity process
-        self.activity_checking = self.main_loop.create_task(NetworkActivity.async_get_activity(self))
-
-        if config.watchdog_enable:
-            # Setting watchdog event handler as PyQt Object signal
-            event_handler = ConfigWatchdog()
-            event_handler.fileUpdated.connect(self.config_change_action)
-            # Starting observer thread that schedules file watching and dispatches calls to event handler
-            observer = Observer()
-            observer.schedule(event_handler, path=path.dirname(path.abspath(__file__)), recursive=False)
-            observer.start()
-
-    # Log right click context menu
-    def log_context_menu(self, event):
-        menu = QMenu()
-        #
-        clear_log = QAction(QIcon("icon/clear.png"), _("Clear"), self)
-        clear_log.triggered.connect(self.log.clear)
-        #
-        menu.addAction(clear_log)
-        menu.exec_(self.log.mapToGlobal(event))
-
-    # Watchdog event handler actions
-    def config_change_action(self):
-        # Cancelling current checking servers availability process
-        self.srv_checking.cancel()
-        # Getting the configuration and filling the server list with the found servers
-        SRVArea.srv_get(self)
-        # Starting checking servers availability process
-        self.srv_checking = self.main_loop.create_task(SRVArea.async_srv_check(self))
-
-    # Actions during the program window closed
     def closeEvent(self, event):
-        # Setting up the alert message
+        """ Main window closing action - detach all devices """
+        # TODO Message API
         warning = QMessageBox()
-        warning.setWindowTitle(_("Warning"))
-        warning.setText(_("Are you sure want to exit? All current connections will be terminated!"))
+        warning.setWindowTitle(self._lang.MessageCloseTitle)
+        warning.setText(self._lang.MessageCloseText)
         warning.setIcon(1)
-        ok_button = warning.addButton(_("OK"), QMessageBox.YesRole)
-        cancel_button = warning.addButton(_("Cancel"), QMessageBox.NoRole)
+        ok_button = warning.addButton(self._lang.MessageCloseOK, QMessageBox.YesRole)
+        cancel_button = warning.addButton(self._lang.MessageCloseCancel, QMessageBox.NoRole)
         warning.exec_()
-        #
         if warning.clickedButton() == ok_button:
-            #
-            ApplicationMenu.disconnect_all(self, config.usbip_array, sw_close=True)
             event.ignore()
-        #
         elif warning.clickedButton() == cancel_button:
             event.ignore()
 
 
-if __name__ == "__main__":
-    app = QApplication(argv)
-
-    #
-    if len(list([proc.info for proc in process_iter(attrs=["name"]) if config.program_title in proc.info["name"]])) > 1:
-        # Setting up the alert message
-        config.alert_box(_("Warning"), _("Another instance is already running!"), 1)
-        # Closing the program
-        exit()
-
-    # Installing translator
-    ini = config.get_config()
-    if ini["SETTINGS"].getboolean("software_language"):
-        translator = QTranslator()
-        translator.load("lang/ru/interface.qm")
-        app.installTranslator(translator)
-
-    # Preparing the main loop
-    loop = ProactorEventLoop()
-    set_event_loop(loop)
-
-    # Preparing and displaying the GUI
-    ProgramUI(loop)
+if __name__ == '__main__':
+    _application = QApplication(argv)
+    _comp = compatibility.System()
+    _loop = _comp.loop()
+    _ui = USBIPManagerUI()
+    _ui.show()
     try:
-        loop.run_until_complete(async_process_subprocess(app))
+        _loop.run_until_complete(_processing(_application))
     except CancelledError:
         pass

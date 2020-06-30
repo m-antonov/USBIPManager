@@ -1,183 +1,13 @@
 #
 import builtins
 #
-from os import remove, path, chdir
-#
-from datetime import datetime
-#
-from gettext import translation
-#
-from math import floor, log, pow
-#
-from ipaddress import ip_address
+from os import path, chdir
 # Interaction with the configuration *.ini files
 from configparser import ConfigParser
 # PyQt5 modules
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QObject, pyqtSignal, QPersistentModelIndex, QRegExp
-from PyQt5.QtWidgets import QMessageBox
-
-
-# ============================================================================ #
-# QT SIGNALS
-# ============================================================================ #
-
-# Logging text browser
-class LoggingResult(QObject):
-    textAppended = pyqtSignal(object, str, bool, bool, bool)
-
-    def append_text(self, _self, text, success=False, warn=False, err=False):
-        self.textAppended.emit(_self, text, success, warn, err)
-
-
-# Appending the text to text browser from an external thread
-def append_text(_self, text, success=False, warn=False, err=False):
-    # Success message type
-    if success:
-        _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " +
-                         _("<font color='green'>Success: </font>") + text)
-    # Warning message type
-    elif warn:
-        _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " +
-                         _("<font color='orange'>Warning: </font>") + text)
-    # Error message type
-    elif err:
-        _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " +
-                         _("<font color='red'>An error has occurred: </font>") + text)
-    # Default info message type
-    else:
-        _self.log.append(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + " : " + text)
-
-
-# Applying signals
-logging_result = LoggingResult()
-logging_result.textAppended.connect(
-    lambda _self, text, success, warn, err: append_text(_self, text, success, warn, err))
-
-
-# Device tree
-class DeviceTreeSignal(QObject):
-    topLevelItemAppended = pyqtSignal(object, object)
-    childTextSet = pyqtSignal(object, int, str)
-    childIconSet = pyqtSignal(object, int, object)
-    childToolTipSet = pyqtSignal(object, int, str)
-
-    def append_item(self, _self, child):
-        self.topLevelItemAppended.emit(_self, child)
-
-    def set_text(self, child, col_id, text):
-        self.childTextSet.emit(child, col_id, text)
-
-    def set_tooltip(self, child, col_id, tooltip):
-        self.childToolTipSet.emit(child, col_id, tooltip)
-
-    def set_icon(self, child, col_id, icon):
-        self.childIconSet.emit(child, col_id, icon)
-
-
-# Appending the child to device tree from an external thread
-def append_item(_self, child):
-    _self.device_tree.addTopLevelItem(child)
-    _self.device_tree.expandAll()
-
-
-# Setting the device tree child column text from an external thread
-def set_text(child, col_id, text):
-    child.setText(col_id, text)
-
-
-#
-def set_tooltip(child, col_id, tooltip):
-    child.setToolTip(col_id, tooltip)
-
-
-#
-def set_icon(child, col_id, icon):
-    child.setIcon(col_id, icon)
-
-
-# Applying signals
-device_tree = DeviceTreeSignal()
-device_tree.topLevelItemAppended.connect(lambda _self, child: append_item(_self, child))
-device_tree.childTextSet.connect(lambda child, col_id, text: set_text(child, col_id, text))
-device_tree.childToolTipSet.connect(lambda child, col_id, tooltip: set_tooltip(child, col_id, tooltip))
-device_tree.childIconSet.connect(lambda child, col_id, icon: set_icon(child, col_id, icon))
-
-
-# Server auto find progress bar
-class ProgressBar(QObject):
-    valueUpdated = pyqtSignal(object, float)
-
-    def set_progress(self, _self, value):
-        self.valueUpdated.emit(_self, value)
-
-
-#
-def set_progress(_self, value):
-    _self.progress_bar.setValue(value)
-
-
-# Applying signals
-progress_bar = ProgressBar()
-progress_bar.valueUpdated.connect(lambda _self, value: set_progress(_self, value))
-
-
-# Server auto find search list result
-class SearchResult(QObject):
-    listCleared = pyqtSignal(object)
-    itemAdded = pyqtSignal(object, object)
-
-    def clear_list(self, _self):
-        self.listCleared.emit(_self)
-
-    def add_item(self, _self, item):
-        self.itemAdded.emit(_self, item)
-
-
-#
-def clear_list(_self):
-    _self.search_result.clear()
-
-
-#
-def add_item(_self, item):
-    _self.search_result.addItem(item)
-
-
-# Applying signals
-search_result = SearchResult()
-search_result.itemAdded.connect(lambda _self, item: add_item(_self, item))
-search_result.listCleared.connect(lambda _self: clear_list(_self))
-
-
-#
-class SpinnerQueue(QObject):
-    spinnerStarted = pyqtSignal(list)
-    spinnerStopped = pyqtSignal(list)
-
-    def start_spinner(self, spinners):
-        self.spinnerStarted.emit(spinners)
-
-    def stop_spinner(self, spinners):
-        self.spinnerStopped.emit(spinners)
-
-
-#
-def start_spinner(spinners):
-    for spinner in spinners:
-        spinner.start()
-
-
-#
-def stop_spinner(spinners):
-    for spinner in spinners:
-        spinner.stop()
-
-
-# Applying signals
-spinner_queue = SpinnerQueue()
-spinner_queue.spinnerStarted.connect(lambda spinners: start_spinner(spinners))
-spinner_queue.spinnerStopped.connect(lambda spinners: stop_spinner(spinners))
+from PyQt5.QtCore import QPersistentModelIndex
+from PyQt5.QtWidgets import QMessageBox, QWidget, QProgressBar
 
 
 # ============================================================================ #
@@ -191,32 +21,6 @@ def get_config():
     return config
 
 
-# Adding a server to the configuration file
-def config_add(srv_addr, params):
-    config = ConfigParser()
-    config.add_section(srv_addr)
-
-    # Setting default values
-    for key in default_srv_ini:
-        config.set(srv_addr, key, str(default_srv_ini[key]))
-
-    # Setting server port, search filter and server name from input parameters
-    for param in params:
-        config.set(srv_addr, param, params[param])
-
-    # Writing to the configuration file
-    with open("config.ini", "a", encoding="utf-8") as f:
-        config.write(f)
-
-
-# Removing a server from the configuration file
-def config_rm(config, srv_addr):
-    remove("config.ini")
-    with open("config.ini", "a", encoding="utf-8") as f:
-        config.remove_section(srv_addr)
-        config.write(f)
-
-
 # Checking if one of the line edit is empty
 def is_empty(linedit_list):
     for linedit in linedit_list:
@@ -224,17 +28,6 @@ def is_empty(linedit_list):
             linedit.setStyleSheet(linedit_stylesheet)
             return True
     return False
-
-
-# Checking if one of the line edit IPv4 address is valid
-def is_valid(linedit_list):
-    for linedit in linedit_list:
-        try:
-            ip_address(linedit.text())
-        except ValueError:
-            linedit.setStyleSheet(linedit_stylesheet)
-            return False
-    return True
 
 
 #
@@ -270,22 +63,6 @@ def capturing_disable(_self):
 
 
 #
-def get_array_length(array):
-    return sum(len(value) for value in array.values())
-
-
-#
-def convert_size(size_bytes):
-    if size_bytes == 0:
-        return "0 B"
-    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-    i = int(floor(log(size_bytes, 1024)))
-    p = pow(1024, i)
-    s = round(size_bytes / p, 2)
-    return "%s %s" % (s, size_name[i])
-
-
-#
 def alert_box(title, message, icon, detail=False):
     alert = QMessageBox()
     alert.setWindowTitle(title)
@@ -294,13 +71,6 @@ def alert_box(title, message, icon, detail=False):
     if detail:
         alert.setDetailedText(detail)
     alert.exec_()
-
-
-#
-def get_action(srv_addr, loop_filter):
-    for action in srv_array[srv_addr]["action_menu"].actions():
-        if loop_filter in action.text():
-            return action
 
 
 # Reading the capture configuration file
@@ -324,26 +94,12 @@ def table_row_delete(table_widget):
         alert_box(_("Warning"), _("No configuration row selected!"), 2)
 
 
-#
-def install_translation():
-    ru = translation("base", localedir="lang", languages=["ru"])
-    ru.install()
-    _ = ru.gettext
-
-
 # ============================================================================ #
 # PARAMS AND VARIABLES
 # ============================================================================ #
 
-#
-watchdog_enable = True
-
 # Software title
 program_title = "USBIPManager"
-
-# Regex IP address linedit validation
-ip_range = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])"
-ip_regex = QRegExp("^" + ip_range + "\\." + ip_range + "\\." + ip_range + "\\." + ip_range + "$")
 
 #
 # TODO Documenting
@@ -379,12 +135,6 @@ default_srv_ini = {
 ssh_array = dict()
 #
 # TODO Documenting
-usbtop_array = dict()
-#
-# TODO Documenting
-srv_array = dict()
-#
-# TODO Documenting
 usbip_array = dict()
 #
 # TODO Documenting
@@ -397,11 +147,65 @@ capture_array = dict()
 BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
 chdir(BASE_DIR)
 
-# Installing translator
-ini = get_config()
-if ini["SETTINGS"].getboolean("software_language"):
-    install_translation()
-
 #
 if "_" not in dir(builtins):
     from gettext import gettext as _
+
+
+class Singleton(type):
+    """ Class single design pattern with arguments """
+    instances = {}
+
+    def __call__(cls, *args):
+        _key = (cls, args)
+        if _key not in cls.instances:
+            cls.instances[_key] = super(Singleton, cls).__call__(*args)
+        return cls.instances[_key]
+
+    def __repr__(cls):
+        return f'{cls.__name__}'
+
+
+class WSingleton(Singleton, type(QWidget)):
+    """ Class single design pattern with arguments and QWidget type to resolve metaclass conflict """
+    pass
+
+
+class ProgressBar(QProgressBar):
+    """ Progress bar with custom printable class representation for queue manager modal window """
+    def __init__(self, base, name):
+        super(ProgressBar, self).__init__(parent=base)
+
+        self._name = name
+        self._value = 0
+
+        self.setValue(self._value)
+
+    def __repr__(self):
+        """ Printable class representation for queue manager modal window """
+        return f'{self._name} QProgressBar'
+
+
+class ProgressRepr:
+    """ Custom printable QProgressBar class representation interface """
+    def __init__(self, obj, name):
+        super(ProgressRepr, self).__init__()
+
+        self._obj = obj
+        self._name = name
+
+    def replace(self):
+        """ Remove / Replace an object with custom representation """
+        _base = self._obj.parent()
+        _lyt = _base.layout()
+        _position = _lyt.getItemPosition(_lyt.indexOf(self._obj))
+
+        _lyt.removeWidget(self._obj)
+        self._obj.deleteLater()
+        self._obj.setParent(None)
+
+        _obj = ProgressBar(_base, self._name)
+        _lyt.addWidget(_obj, *_position)
+        _lyt.update()
+
+        return _obj
