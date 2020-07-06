@@ -1,8 +1,8 @@
 from library import bar, compatibility, config, daemon, ini, lang, log, performance, queue
 from library.modal import LoadDaemon, SelfSearch, SoftwareConfig, QueueManager
 
-from sys import argv
-from asyncio import sleep, CancelledError
+from sys import argv, exit
+from asyncio import sleep, all_tasks, CancelledError
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
@@ -33,6 +33,7 @@ class USBIPManagerUI(QMainWindow):
         self._manager = queue.Manager(self)
         self._atch_name = 'USBIP attach all'
         self._dtch_name = 'USBIP detach all'
+        self._shutdown_name = 'Software shutdown'
 
         _repr = config.ProgressRepr(self.progress, self.__class__.__name__)
         self._bar = bar.Manager(_repr.replace())
@@ -174,20 +175,43 @@ class USBIPManagerUI(QMainWindow):
         """ Log area right-click popup menu clear action """
         self.log.clear()
 
+    async def _shutdown(self):
+        """ Detach all USBIP devices and software shutdown - coroutine """
+        self.setEnabled(False)
+        await self._atch_dtch_all('dtch')
+        for proc in all_tasks():
+            proc.cancel()
+
+    def _close_ok_btn(self):
+        """ OK button closing action - detach all USBIP devices and software shutdown """
+        self._manager.exec(self._shutdown, self._shutdown_name)
+
+    def _close_cancel_btn(self):
+        """ Cancel button closing action - pass """
+        pass
+
+    def _close_selection(self, btn):
+        """ Switch-case structure - closing action depending on the pressed button of the warning modal window """
+        return {
+            self._lang.MessageCloseOK: self._close_ok_btn,
+            self._lang.MessageCloseCancel: self._close_cancel_btn
+        }.get(btn.text(), self._lang.MessageCloseOK)
+
     def closeEvent(self, event):
         """ Main window closing action - detach all devices """
         # TODO Message API
-        warning = QMessageBox()
-        warning.setWindowTitle(self._lang.MessageCloseTitle)
-        warning.setText(self._lang.MessageCloseText)
-        warning.setIcon(1)
-        ok_button = warning.addButton(self._lang.MessageCloseOK, QMessageBox.YesRole)
-        cancel_button = warning.addButton(self._lang.MessageCloseCancel, QMessageBox.NoRole)
-        warning.exec_()
-        if warning.clickedButton() == ok_button:
-            event.ignore()
-        elif warning.clickedButton() == cancel_button:
-            event.ignore()
+        _warning = QMessageBox()
+        _warning.setWindowTitle(self._lang.MessageCloseTitle)
+        _warning.setText(self._lang.MessageCloseText)
+        _warning.setIcon(1)
+
+        _ok_btn = _warning.addButton(self._lang.MessageCloseOK, QMessageBox.YesRole)
+        _cancel_btn = _warning.addButton(self._lang.MessageCloseCancel, QMessageBox.NoRole)
+
+        _warning.exec_()
+
+        self._close_selection(_warning.clickedButton())()
+        event.ignore()
 
 
 if __name__ == '__main__':
@@ -199,4 +223,4 @@ if __name__ == '__main__':
     try:
         _loop.run_until_complete(_processing(_application))
     except CancelledError:
-        pass
+        exit(0)
